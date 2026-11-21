@@ -1,0 +1,1265 @@
+{
+  "network": "Robinhood Chain testnet",
+  "chainId": 46630,
+  "explorer": "https://explorer.testnet.chain.robinhood.com",
+  "note": "Mock tokens, simulated makers. Collected from the broadcast file and QuoteFilled logs.",
+  "deployer": "0x9178B573219C55586BbAf51Ecb24ACfb27BB7681",
+  "settlement": "0x188C42CB8B6FE9ED8CB654d5e5d10c913b31A25b",
+  "usdg": "0x3aafFfdfa4CDBbF915351C0d35699c1c61B743B6",
+  "deployTransactions": [
+    {
+      "hash": "0xea1561e5a41578922222cb5460c65b20c3577e250d9aacac06d61a3074af782a",
+      "kind": "FaucetToken",
+      "fn": null,
+      "to": "0x3aafffdfa4cdbbf915351c0d35699c1c61b743b6",
+      "block": 156187385,
+      "status": "0x1"
+    },
+    {
+      "hash": "0x18b37fee844ac88182c4fdd63aaf2740426b9d90617a167c212a41cc7b67c2f1",
+      "kind": "ColdHarborSettlement",
+      "fn": null,
+      "to": "0x188c42cb8b6fe9ed8cb654d5e5d10c913b31a25b",
+      "block": 156187390,
+      "status": "0x1"
+    },
+    {
+      "hash": "0x29a08da651ca9ed4a8ff841c3639887ca3a836e92d09de1e51ccf5559b949c84",
+      "kind": "FaucetToken",
+      "fn": null,
+      "to": "0x781435104117c5583c6d175784007ca171d47f30",
+      "block": 156187399,
+      "status": "0x1"
+    },
+    {
+      "hash": "0x9ecb8a88be1a9becce6ef1fe10fbaebd75e8e46036066972cef778b15fcc90c8",
+      "kind": "ColdHarborSettlement",
+      "fn": "setTokenAllowed(address,bool)",
+      "to": "0x188c42cb8b6fe9ed8cb654d5e5d10c913b31a25b",
+      "block": 156187412,
+      "status": "0x1"
+    },
+    {
+      "hash": "0x5da3715c092bcfac6a9345978452e4244988f99570aebf3b3800d4d201a39d13",
+      "kind": "FaucetToken",
+      "fn": null,
+      "to": "0xf38552940860f42189486bbc653571703d43d782",
+      "block": 156187418,
+      "status": "0x1"
+    },
+    {
+      "hash": "0x74218fd740fc9f6614115fad4594b4671232d91ac2f7954ef8c1ee75566580d7",
+      "kind": "ColdHarborSettlement",
+      "fn": "setTokenAllowed(address,bool)",
+      "to": "0x188c42cb8b6fe9ed8cb654d5e5d10c913b31a25b",
+      "block": 156187425,
+      "status": "0x1"
+    },
+    {
+      "hash": "0xe837d282dbf4d07b77a64c85569e985424eab835687c6f2bd58fea37772c9cec",
+      "kind": "FaucetToken",
+      "fn": null,
+      "to": "0x5d14b51e008d28cf8308da84041c7feaea412723",
+      "block": 156187437,
+      "status": "0x1"
+    },
+    {
+      "hash": "0x88cee30bd619b22e941a4fec3b34093a187be4bfad6307e4533bea79cec84034",
+      "kind": "ColdHarborSettlement",
+      "fn": "setTokenAllowed(address,bool)",
+      "to": "0x188c42cb8b6fe9ed8cb654d5e5d10c913b31a25b",
+      "block": 156187441,
+      "status": "0x1"
+    },
+    {
+      "hash": "0xc68400c75e8b9d26dc7080f8e78e214fbc090fd871e79a1385f0f195eb2ff3b9",
+      "kind": "FaucetToken",
+      "fn": null,
+      "to": "0xa4cacae0e5221d6b5a2b1630f7f6f36e6b9ef99a",
+      "block": 156187452,
+      "status": "0x1"
+    },
+    {
+      "hash": "0x6e2a4a51a3215f526a750244114f7374fe9572afeadd6000d9e880bedaab3e04",
+      "kind": "ColdHarborSettlement",
+      "fn": "setTokenAllowed(address,bool)",
+      "to": "0x188c42cb8b6fe9ed8cb654d5e5d10c913b31a25b",
+      "block": 156187462,
+      "status": "0x1"
+    },
+    {
+      "hash": "0xdcd2d67ede48aba3953d9737b11a4998b907803a2eb06c2f6bea80deb1c27d48",
+      "kind": "FaucetToken",
+      "fn": null,
+      "to": "0xbf30164860d2d7f86382480f9c63f725df9bcbf3",
+      "block": 156187474,
+      "status": "0x1"
+    },
+    {
+      "hash": "0xfa95c65b7a52a52ba17d9cbd48ec0bd9bfb4e78f7620e7ccb4aff018d098418c",
+      "kind": "ColdHarborSettlement",
+      "fn": "setTokenAllowed(address,bool)",
+      "to": "0x188c42cb8b6fe9ed8cb654d5e5d10c913b31a25b",
+      "block": 156187475,
+      "status": "0x1"
+    },
+    {
+      "hash": "0xedab65b62efcc92691f7771900c5c6b55e6cb4cac48f78163861491fffd436fd",
+      "kind": "FaucetToken",
+      "fn": null,
+      "to": "0x76e9b1d5d10190fe9e0dcec232d793732a8d2e76",
+      "block": 156187482,
+      "status": "0x1"
+    },
+    {
+      "hash": "0x06eed97d0323eb38d4a57379344df28a8f6ae36a4e83a9ffa1962ecc7c00762f",
+      "kind": "ColdHarborSettlement",
+      "fn": "setTokenAllowed(address,bool)",
+      "to": "0x188c42cb8b6fe9ed8cb654d5e5d10c913b31a25b",
+      "block": 156187498,
+      "status": "0x1"
+    },
+    {
+      "hash": "0x90c96ee9877516a9f3b17f1461a4626d48a80de8a761d0c8d425cd5920f64112",
+      "kind": "FaucetToken",
+      "fn": null,
+      "to": "0x049a4b282b701eff10ee31391055480096a60d10",
+      "block": 156187514,
+      "status": "0x1"
+    },
+    {
+      "hash": "0xf440a8ae8824f828d8fa72e7b366497b53914fac4ed9452eb6b848ef17153ff8",
+      "kind": "ColdHarborSettlement",
+      "fn": "setTokenAllowed(address,bool)",
+      "to": "0x188c42cb8b6fe9ed8cb654d5e5d10c913b31a25b",
+      "block": 156187526,
+      "status": "0x1"
+    },
+    {
+      "hash": "0xea6337500260edc09258060070c123f3d829978620a91d41c58a6c8758a9dfbe",
+      "kind": "FaucetToken",
+      "fn": null,
+      "to": "0x824afad8c4cfa5e71b733f9fa80fa8f0f2ce0204",
+      "block": 156187544,
+      "status": "0x1"
+    },
+    {
+      "hash": "0xe4ec752dc10e29da65b7b3e46147960e26c075b781630040a631c5f71533416e",
+      "kind": "ColdHarborSettlement",
+      "fn": "setTokenAllowed(address,bool)",
+      "to": "0x188c42cb8b6fe9ed8cb654d5e5d10c913b31a25b",
+      "block": 156187555,
+      "status": "0x1"
+    },
+    {
+      "hash": "0xa7d829f3775d621cba677f2063db6df093bc1919b0d0852079ae3934e029c716",
+      "kind": "FaucetToken",
+      "fn": null,
+      "to": "0x2c43cd90454cf42cb573ea6f1eda994f841eaf54",
+      "block": 156187565,
+      "status": "0x1"
+    },
+    {
+      "hash": "0xbda0f787ffebd46e6fcb55e72d3fa65df51a49b0bea0300dc929075806c4e566",
+      "kind": "ColdHarborSettlement",
+      "fn": "setTokenAllowed(address,bool)",
+      "to": "0x188c42cb8b6fe9ed8cb654d5e5d10c913b31a25b",
+      "block": 156187579,
+      "status": "0x1"
+    },
+    {
+      "hash": "0x7f120e85a0589cf9d78aa07e3b144b406083e983784ea6bf4ce7054b7e9eeb0f",
+      "kind": "FaucetToken",
+      "fn": null,
+      "to": "0x157897d818402c89bbbf63965879d5c7a648a966",
+      "block": 156187596,
+      "status": "0x1"
+    },
+    {
+      "hash": "0xd600fc06986a0d62708b03594f8d9bf4414340887cd1ce3309fd41329f67a6fb",
+      "kind": "ColdHarborSettlement",
+      "fn": "setTokenAllowed(address,bool)",
+      "to": "0x188c42cb8b6fe9ed8cb654d5e5d10c913b31a25b",
+      "block": 156187607,
+      "status": "0x1"
+    },
+    {
+      "hash": "0xa87b2915970b36b91272abcc9d054f9fc4bd22aaa01b39731e679276889f7f53",
+      "kind": "FaucetToken",
+      "fn": null,
+      "to": "0x36891f6588ae8042e03092fefb6ba8a5266b0bf1",
+      "block": 156187616,
+      "status": "0x1"
+    },
+    {
+      "hash": "0x14317798b024cbce360b074cb37f320c40f3e51b7b516c73482f6df3fa3795a8",
+      "kind": "ColdHarborSettlement",
+      "fn": "setTokenAllowed(address,bool)",
+      "to": "0x188c42cb8b6fe9ed8cb654d5e5d10c913b31a25b",
+      "block": 156187622,
+      "status": "0x1"
+    },
+    {
+      "hash": "0x8ffcebf7418eaaf549b428288bc2e63f60f67e5a549593f8e07622b2b4c96a6c",
+      "kind": "FaucetToken",
+      "fn": null,
+      "to": "0x76395d61a9ac688001d4211d0150c37e73d9e67d",
+      "block": 156187639,
+      "status": "0x1"
+    },
+    {
+      "hash": "0xf9986790894b97860d6b1063f2c10a5c1d09710f8692786f40caead2a66e37b8",
+      "kind": "ColdHarborSettlement",
+      "fn": "setTokenAllowed(address,bool)",
+      "to": "0x188c42cb8b6fe9ed8cb654d5e5d10c913b31a25b",
+      "block": 156187657,
+      "status": "0x1"
+    },
+    {
+      "hash": "0xff2aca261ab6ccf8904c60ddaf08cdaaa7548ad34658c460032e0667a70f252a",
+      "kind": "FaucetToken",
+      "fn": null,
+      "to": "0x5c0b61b5419edf0b79e35b4a6d8adbbfab20493a",
+      "block": 156187668,
+      "status": "0x1"
+    },
+    {
+      "hash": "0x45ad6c45adbafe10ce08e91a8a86daa5b9e3f3a59e12fbc97d7cf4792831d36f",
+      "kind": "ColdHarborSettlement",
+      "fn": "setTokenAllowed(address,bool)",
+      "to": "0x188c42cb8b6fe9ed8cb654d5e5d10c913b31a25b",
+      "block": 156187686,
+      "status": "0x1"
+    },
+    {
+      "hash": "0x4962a8398b300e39b89f12c13913ac3cc1bba16217fadb3cc74b37e513373a9a",
+      "kind": "FaucetToken",
+      "fn": null,
+      "to": "0x1c63fecafef415ccd5e978f386c3ce6c1b57ea7f",
+      "block": 156187693,
+      "status": "0x1"
+    },
+    {
+      "hash": "0x737ea2ec4c969175fa72669ddec2df5d4907d618214078654ab350c6bc9765e9",
+      "kind": "ColdHarborSettlement",
+      "fn": "setTokenAllowed(address,bool)",
+      "to": "0x188c42cb8b6fe9ed8cb654d5e5d10c913b31a25b",
+      "block": 156187701,
+      "status": "0x1"
+    },
+    {
+      "hash": "0x491ddb348606be78632f85d5d54185a39486b6931d0ebf4132f516cccc17f3b5",
+      "kind": "FaucetToken",
+      "fn": null,
+      "to": "0x2e4a4ce8bae4bc162e1ebc0468e9b59d9277789c",
+      "block": 156187716,
+      "status": "0x1"
+    },
+    {
+      "hash": "0x069c787c93bd01ae6f8a361f17c3abf99402354972e9410f9bdab022355260b3",
+      "kind": "ColdHarborSettlement",
+      "fn": "setTokenAllowed(address,bool)",
+      "to": "0x188c42cb8b6fe9ed8cb654d5e5d10c913b31a25b",
+      "block": 156187725,
+      "status": "0x1"
+    },
+    {
+      "hash": "0xb82a75832a5ca3eb5e67cb651fc83e01fdbfebd9ded745452e7beee6beaaad71",
+      "kind": "FaucetToken",
+      "fn": null,
+      "to": "0x370e8d0b4c2169ef06a3709f368055e6f034f5e8",
+      "block": 156187731,
+      "status": "0x1"
+    },
+    {
+      "hash": "0xbbb0359b4a9d8ed3b6d7acf8f0f656a91eec6cefcb8c1234ba1f05f26b721b00",
+      "kind": "ColdHarborSettlement",
+      "fn": "setTokenAllowed(address,bool)",
+      "to": "0x188c42cb8b6fe9ed8cb654d5e5d10c913b31a25b",
+      "block": 156187739,
+      "status": "0x1"
+    },
+    {
+      "hash": "0xf85d2a60f9f0b34f0ae3fce5eafa1e8495f37bcd574356c56029b2c4c329d7e9",
+      "kind": "FaucetToken",
+      "fn": null,
+      "to": "0x17857095cc5ee60c42788ba4d7a2c008da9e40a3",
+      "block": 156187752,
+      "status": "0x1"
+    },
+    {
+      "hash": "0x37b44f93c4a7419f2c50cd767e5f7452133ce6210ed079ead563570b29c71232",
+      "kind": "ColdHarborSettlement",
+      "fn": "setTokenAllowed(address,bool)",
+      "to": "0x188c42cb8b6fe9ed8cb654d5e5d10c913b31a25b",
+      "block": 156187762,
+      "status": "0x1"
+    },
+    {
+      "hash": "0x077a20e599c20a583756a913ce070cf9b8e232502e37c3e05aa15ebdb14250a7",
+      "kind": "FaucetToken",
+      "fn": null,
+      "to": "0xcc0a7951be0dcaf896ecd60e94307f551e2bd3bb",
+      "block": 156187769,
+      "status": "0x1"
+    },
+    {
+      "hash": "0x5debf60cd7fe73d4aca0e579a404cc407fdbfd7a666b290afbbaffbe089d30ce",
+      "kind": "ColdHarborSettlement",
+      "fn": "setTokenAllowed(address,bool)",
+      "to": "0x188c42cb8b6fe9ed8cb654d5e5d10c913b31a25b",
+      "block": 156187786,
+      "status": "0x1"
+    },
+    {
+      "hash": "0xf6a1a0a2f8b8b7919c095aa35000322a2ceea0e1a3d3bb7378eb1b95f0445dcc",
+      "kind": "FaucetToken",
+      "fn": null,
+      "to": "0x00cd130c9e0cee4b20d271e63b0f25b50ade6bfb",
+      "block": 156187795,
+      "status": "0x1"
+    },
+    {
+      "hash": "0xfd927df9caed5ad671e229e551898a46d9ef7d5899d2b0a9771f49b754c83a6d",
+      "kind": "ColdHarborSettlement",
+      "fn": "setTokenAllowed(address,bool)",
+      "to": "0x188c42cb8b6fe9ed8cb654d5e5d10c913b31a25b",
+      "block": 156187804,
+      "status": "0x1"
+    },
+    {
+      "hash": "0xfc3e06eae92fa88a6a2dc54165c17c84c6ef13eabca61a72d02c644a746504d0",
+      "kind": "FaucetToken",
+      "fn": null,
+      "to": "0x4b17e652c0c13e16c8c43c704697df42a20a0089",
+      "block": 156187818,
+      "status": "0x1"
+    },
+    {
+      "hash": "0x6de4e02328929a2e4b615dfc95b396548baf09ed3db13f5021e52055f7e664d4",
+      "kind": "ColdHarborSettlement",
+      "fn": "setTokenAllowed(address,bool)",
+      "to": "0x188c42cb8b6fe9ed8cb654d5e5d10c913b31a25b",
+      "block": 156187828,
+      "status": "0x1"
+    },
+    {
+      "hash": "0x7fd40bfcc13de251548b0972227255f6c092a37d0edb9c7fb8e7eeddd46b1d83",
+      "kind": "FaucetToken",
+      "fn": null,
+      "to": "0x143f0db6649eab4dc0b4b6d4ffb79b8b3ee40fd0",
+      "block": 156187835,
+      "status": "0x1"
+    },
+    {
+      "hash": "0x07ebdafd2b8913df339a296b315db7939a99ffb92e0ab88512e04433cc398144",
+      "kind": "ColdHarborSettlement",
+      "fn": "setTokenAllowed(address,bool)",
+      "to": "0x188c42cb8b6fe9ed8cb654d5e5d10c913b31a25b",
+      "block": 156187841,
+      "status": "0x1"
+    },
+    {
+      "hash": "0x7804e8a3dc053d575f4d48690e008c75ccd3768159b7d638dec5baf3cf28636a",
+      "kind": "FaucetToken",
+      "fn": null,
+      "to": "0xe6af0464d037a0acd55001738f96da55653bf535",
+      "block": 156187858,
+      "status": "0x1"
+    },
+    {
+      "hash": "0x63afc10b4b03583ede2c4722168ebc85e0728b16398cecdabddcd691d3e1d0b5",
+      "kind": "ColdHarborSettlement",
+      "fn": "setTokenAllowed(address,bool)",
+      "to": "0x188c42cb8b6fe9ed8cb654d5e5d10c913b31a25b",
+      "block": 156187872,
+      "status": "0x1"
+    },
+    {
+      "hash": "0xeff29259f3a7903b9fb559a07dfbb3e41186c7fda5f1281cf4af7d1f5b6bd6de",
+      "kind": "FaucetToken",
+      "fn": null,
+      "to": "0x439c967eda6295f01857be873e054c7302ace944",
+      "block": 156187889,
+      "status": "0x1"
+    },
+    {
+      "hash": "0x1485d63850725c3dd6160c8fa5eca0b107607bf6d2b314d5faa21fb1f5d0aa57",
+      "kind": "ColdHarborSettlement",
+      "fn": "setTokenAllowed(address,bool)",
+      "to": "0x188c42cb8b6fe9ed8cb654d5e5d10c913b31a25b",
+      "block": 156187901,
+      "status": "0x1"
+    },
+    {
+      "hash": "0x6ae1ce8e1b92f48b7a06924c47a83bafc0392b90d176eaff9a528c846a4ee626",
+      "kind": "FaucetToken",
+      "fn": null,
+      "to": "0xaef9a4e3faca3fd6784c744fd7c20c63837fce8d",
+      "block": 156187917,
+      "status": "0x1"
+    },
+    {
+      "hash": "0x356079a388dce4ce337595550f285a36449d701d3312c71d94a1d2715729dc38",
+      "kind": "ColdHarborSettlement",
+      "fn": "setTokenAllowed(address,bool)",
+      "to": "0x188c42cb8b6fe9ed8cb654d5e5d10c913b31a25b",
+      "block": 156187932,
+      "status": "0x1"
+    },
+    {
+      "hash": "0x2c802400faca7379b4deb76a97f38df6bdec484b6251bcb4237e4951ff182235",
+      "kind": "FaucetToken",
+      "fn": null,
+      "to": "0xe182773000c68dc6f7e54bf84840460268f34bb5",
+      "block": 156187939,
+      "status": "0x1"
+    },
+    {
+      "hash": "0xbd381c8e4c06c47940b67b12e2b5b1feb54be5e35c703a14fa5cd54610053e67",
+      "kind": "ColdHarborSettlement",
+      "fn": "setTokenAllowed(address,bool)",
+      "to": "0x188c42cb8b6fe9ed8cb654d5e5d10c913b31a25b",
+      "block": 156187954,
+      "status": "0x1"
+    },
+    {
+      "hash": "0x0da08f44f1e7c0ee5ff98529bb108218938b93fad258980bd0656f2602a04ec1",
+      "kind": "FaucetToken",
+      "fn": null,
+      "to": "0xf8ca8228b5ae2b53611d6490e227693d492c4a71",
+      "block": 156187963,
+      "status": "0x1"
+    },
+    {
+      "hash": "0x4f6fcd2d719af2832fbe30a196673dd59ad54b6d77deac195c62fe67dae9c0c8",
+      "kind": "ColdHarborSettlement",
+      "fn": "setTokenAllowed(address,bool)",
+      "to": "0x188c42cb8b6fe9ed8cb654d5e5d10c913b31a25b",
+      "block": 156187977,
+      "status": "0x1"
+    },
+    {
+      "hash": "0x2fe452917cd8d4893f12178ec5305c02645b328edb44d5ac0b0031427a2cd2e4",
+      "kind": "FaucetToken",
+      "fn": null,
+      "to": "0x339c51009521fba203ce3381e315e2a2b491e70a",
+      "block": 156187988,
+      "status": "0x1"
+    },
+    {
+      "hash": "0xcbd954573b7f6a12ff96ce156e7f8226f12961e790aa819e245cbcd3929b3009",
+      "kind": "ColdHarborSettlement",
+      "fn": "setTokenAllowed(address,bool)",
+      "to": "0x188c42cb8b6fe9ed8cb654d5e5d10c913b31a25b",
+      "block": 156188004,
+      "status": "0x1"
+    },
+    {
+      "hash": "0x847ddcd5d9d25de5a84cd1b134b8d30542f11125a71ed1b744cc6e4a166ec477",
+      "kind": "FaucetToken",
+      "fn": null,
+      "to": "0x13b462597cd8524b6bdfe131e7fc47c6915fc220",
+      "block": 156188011,
+      "status": "0x1"
+    },
+    {
+      "hash": "0xd3877ea65b570877b11db20a62cefea59689ace2ec881e880a87ebb666869e31",
+      "kind": "ColdHarborSettlement",
+      "fn": "setTokenAllowed(address,bool)",
+      "to": "0x188c42cb8b6fe9ed8cb654d5e5d10c913b31a25b",
+      "block": 156188018,
+      "status": "0x1"
+    },
+    {
+      "hash": "0x8ad644d332b079f440c7b0f3af94e1f5c8c42661cafadff0522a5103da13eeba",
+      "kind": "FaucetToken",
+      "fn": null,
+      "to": "0xf241bcfff106df939f8d8b5112a3d863a02971ed",
+      "block": 156188034,
+      "status": "0x1"
+    },
+    {
+      "hash": "0xdc1deaf6cf9b1ba565c06c2855574da4ffd1996360d94bfc929223f873cd44c1",
+      "kind": "ColdHarborSettlement",
+      "fn": "setTokenAllowed(address,bool)",
+      "to": "0x188c42cb8b6fe9ed8cb654d5e5d10c913b31a25b",
+      "block": 156188043,
+      "status": "0x1"
+    },
+    {
+      "hash": "0xf289a626bb49ec28fe016fb29f07be8f691d2cf1dbc19945eae2cfe98bf05fe2",
+      "kind": "FaucetToken",
+      "fn": null,
+      "to": "0xdc42154e3241e2409d5d73630a0d347cc52a7145",
+      "block": 156188061,
+      "status": "0x1"
+    },
+    {
+      "hash": "0xdf3c198a4ab0b73406ff555e0f09defa583ec5bbd38627aa8960530dcacf4185",
+      "kind": "ColdHarborSettlement",
+      "fn": "setTokenAllowed(address,bool)",
+      "to": "0x188c42cb8b6fe9ed8cb654d5e5d10c913b31a25b",
+      "block": 156188079,
+      "status": "0x1"
+    },
+    {
+      "hash": "0x8f31b6bcea38d80580a2ac161bb1837e1c09b055d00fde5519ead05243810322",
+      "kind": "FaucetToken",
+      "fn": null,
+      "to": "0x1a054bc1244f3cbc76f5b1c0e3bb0ce0dc844552",
+      "block": 156188085,
+      "status": "0x1"
+    },
+    {
+      "hash": "0xcb861a5d578a0ad1eed32f7cc8fca644402057e9b3a129b8ed5358005097547f",
+      "kind": "ColdHarborSettlement",
+      "fn": "setTokenAllowed(address,bool)",
+      "to": "0x188c42cb8b6fe9ed8cb654d5e5d10c913b31a25b",
+      "block": 156188095,
+      "status": "0x1"
+    },
+    {
+      "hash": "0x6d63252ad118dc5ad900118fe6b8856e8cfa33216f7084ec4d905ec65da06989",
+      "kind": "FaucetToken",
+      "fn": null,
+      "to": "0x96cbcbf14862babd98077aadc9d48f2d8eb8ac94",
+      "block": 156188106,
+      "status": "0x1"
+    },
+    {
+      "hash": "0xb0fe6ed4cd3d75240ba28a61f3877b34da613b7a415883da23dd6b333c865340",
+      "kind": "ColdHarborSettlement",
+      "fn": "setTokenAllowed(address,bool)",
+      "to": "0x188c42cb8b6fe9ed8cb654d5e5d10c913b31a25b",
+      "block": 156188119,
+      "status": "0x1"
+    },
+    {
+      "hash": "0x6416c0bd6a56ca7f12cfa2cada08d6d7fb0fca4809b3bb993e8488c5ce69c8ca",
+      "kind": "FaucetToken",
+      "fn": null,
+      "to": "0x6bdaf539f1928b9cd5289125e2b09b3f35e051d3",
+      "block": 156188125,
+      "status": "0x1"
+    },
+    {
+      "hash": "0xf575408f3b420a1028916fbf7b7b56f5c4864b1360845b2953c34e3795f972c6",
+      "kind": "ColdHarborSettlement",
+      "fn": "setTokenAllowed(address,bool)",
+      "to": "0x188c42cb8b6fe9ed8cb654d5e5d10c913b31a25b",
+      "block": 156188135,
+      "status": "0x1"
+    },
+    {
+      "hash": "0xc326d4847b62aab6355f82183889d0f8493b18472a3045b0e02527783ac5f960",
+      "kind": "FaucetToken",
+      "fn": null,
+      "to": "0x33a9212d3b98df52a5fb1fa389adf1e2d86edca8",
+      "block": 156188148,
+      "status": "0x1"
+    },
+    {
+      "hash": "0xf4b9c8123f116b7a86775b0e009fce028b0b23c4da46e269042b14616ab85805",
+      "kind": "ColdHarborSettlement",
+      "fn": "setTokenAllowed(address,bool)",
+      "to": "0x188c42cb8b6fe9ed8cb654d5e5d10c913b31a25b",
+      "block": 156188158,
+      "status": "0x1"
+    },
+    {
+      "hash": "0xbb48df0ef52cc2d4d9e8e68745bcde8dc7c5c8c54fdeb26b1db47702175ddf10",
+      "kind": "FaucetToken",
+      "fn": null,
+      "to": "0x3abf5fe70ef103dedae857a299f78af7ebecf302",
+      "block": 156188170,
+      "status": "0x1"
+    },
+    {
+      "hash": "0xb9acd1e728394bec8f7969925339f6c9adf7a3bc9def1771ca902b3d0c1a91f5",
+      "kind": "ColdHarborSettlement",
+      "fn": "setTokenAllowed(address,bool)",
+      "to": "0x188c42cb8b6fe9ed8cb654d5e5d10c913b31a25b",
+      "block": 156188181,
+      "status": "0x1"
+    },
+    {
+      "hash": "0x0496e9aa0062a0912fd233d184192bdf4c1d7b22270a90ebc62d363d33dd55f6",
+      "kind": "FaucetToken",
+      "fn": null,
+      "to": "0x1b27981e6b4a157a5f4a2e814007e294671b7876",
+      "block": 156188192,
+      "status": "0x1"
+    },
+    {
+      "hash": "0xcb221c1c477d2f3b50b7c839ea56895163f16ccd6681153c10a72b00ef78ad0c",
+      "kind": "ColdHarborSettlement",
+      "fn": "setTokenAllowed(address,bool)",
+      "to": "0x188c42cb8b6fe9ed8cb654d5e5d10c913b31a25b",
+      "block": 156188206,
+      "status": "0x1"
+    },
+    {
+      "hash": "0xcd50a02ac899b819cb6581d3d6fde0f6e32232c82cd23d4d0a22a630722addba",
+      "kind": "transfer",
+      "fn": null,
+      "to": "0x9c6a94b492399d584ba7e18bc3676a9e9f634349",
+      "block": 156188215,
+      "status": "0x1"
+    },
+    {
+      "hash": "0x2ed5cf4a1509c2330148cca5e9fb2cbb2da851e7128ecbdf43213f22df3827b6",
+      "kind": "transfer",
+      "fn": null,
+      "to": "0x3706b7c5b4033df1ff0484e587902af472b68406",
+      "block": 156188230,
+      "status": "0x1"
+    },
+    {
+      "hash": "0x33d0149da097e60ef8b5918d748fd39b2d7cbabc210ecab34e80b95693658770",
+      "kind": "transfer",
+      "fn": null,
+      "to": "0x007405847703918eb690485b6de3de42562d75dd",
+      "block": 156188235,
+      "status": "0x1"
+    },
+    {
+      "hash": "0x0049ed662fc316c8aef40686687d6e1021a604568a010b2592f66642ec4d39da",
+      "kind": "transfer",
+      "fn": null,
+      "to": "0xa40517b30fe4c8179cdccfc6906679d097ef795f",
+      "block": 156188249,
+      "status": "0x1"
+    }
+  ],
+  "fillTransactions": [
+    {
+      "hash": "0x4dfdff0effc5e4fae90a1d1bb4adda816471efb3d8cdb9f7421e991c994774df",
+      "block": 156194600
+    },
+    {
+      "hash": "0xf3d6bb9eea1a99040e62dc063330d5d1dd91e9a39de81c735711b9bdca3cace2",
+      "block": 156194738
+    },
+    {
+      "hash": "0x8be7d0c1e53ecca147ab77960224a1be62b4729708fc9c825ec06fe3b45a4a46",
+      "block": 156197025
+    }
+  ],
+  "forwardStack": {
+    "calendar": "0xd19ba08943BF4A308D9305a3eFCB2ae8A1c91248",
+    "oracle": "0x5258F62ea758AAd29cF7a2E88BC124381E9cd475",
+    "vault": "0x6c488Ea047C95632595e57934B5E5d0155E1478F",
+    "engine": "0xAa0962c6585FFbD83A6F0AF74E648985355B34d8"
+  },
+  "forwardDeployTransactions": [
+    {
+      "hash": "0x1ba6bff5a34035fe301cea26ea3244c5b424fecf1d68545b05f3336d1bede930",
+      "kind": "MarketCalendar"
+    },
+    {
+      "hash": "0x5e0fd33c6e09ee306e4c9b162dcf4111c25c6dcf1695aac2e365a73825c21472",
+      "kind": "OracleAdapter"
+    },
+    {
+      "hash": "0x2dd1350a6756f30ca65e0fbd8fef24704786d4452bf4a16e038c6148868e8377",
+      "kind": "MarginVault"
+    },
+    {
+      "hash": "0x39a30b807808f4e7e25e2e25b8a2d499ca6e5d4b49ddf4f12400173a5549cef9",
+      "kind": "ForwardEngine"
+    },
+    {
+      "hash": "0xf4116badb14eb5a52fc1398f8efb4f8d3c6107077414019fefe5d913ab9ef12c",
+      "kind": "MarginVault"
+    },
+    {
+      "hash": "0xf7dd5d6bd1fd22b57998977ad5f561cbdeba40696229845b5805592f0f56aa29",
+      "kind": "TestnetFeed"
+    },
+    {
+      "hash": "0xe848915225df466c0695a61843a9f0e3ad6922eea4cb63c5b1b46ba262b4fea9",
+      "kind": "ForwardEngine"
+    },
+    {
+      "hash": "0x1162a3b64123715cea4abc54a9cf4019e8ea7fd6763f40bcda89ee0c8540498b",
+      "kind": "TestnetFeed"
+    },
+    {
+      "hash": "0x8635ff57cb55f6f5f9f566f38b9156616e25265c4946f659a88661f8bbc79c8a",
+      "kind": "ForwardEngine"
+    },
+    {
+      "hash": "0x4c5e304aec4abab00e0dc00f6e9cef48ce997822fa2e77917506743fe4d3ed32",
+      "kind": "TestnetFeed"
+    },
+    {
+      "hash": "0xfbf2362e33e6f9d8b686ed4fdd14208d5484d8e33818f698427dd0a5d6a94412",
+      "kind": "ForwardEngine"
+    },
+    {
+      "hash": "0x01010be3129cdec9c64e099b664d876e56ee505f3a879e67a8ebbe3846225bbc",
+      "kind": "TestnetFeed"
+    },
+    {
+      "hash": "0x6bd6b91d67dfea72ff9544de53f07c8b475ee034181ec230593eb6b46346f3b4",
+      "kind": "ForwardEngine"
+    },
+    {
+      "hash": "0xff995dc4f749e44b8cd0b34ee7835ac3b7698057ac2ce7add90195b38afafadd",
+      "kind": "TestnetFeed"
+    },
+    {
+      "hash": "0xb3e903e03e0d3d0d364656dc995e4f7fc65aa647dcba7bbdbb6fc79a1312a211",
+      "kind": "ForwardEngine"
+    },
+    {
+      "hash": "0xa3871cd68d10450c68ff3555e7c6a7bc4c6b65196508f4da71c5ccc6585b11ef",
+      "kind": "TestnetFeed"
+    },
+    {
+      "hash": "0xf22d9e388aa087231ee3169e4d303cd90fc445000664b69ae12c3b54f738f032",
+      "kind": "ForwardEngine"
+    },
+    {
+      "hash": "0xaaa4b3e31da7a1694c4c72788b38cfc0ed194311f69e7b4a9570b0f7355e8830",
+      "kind": "TestnetFeed"
+    },
+    {
+      "hash": "0x0b9c48cf61887f68608dbd136250a85ed17510cc5c9a43f2caaaa1166ed13db1",
+      "kind": "ForwardEngine"
+    },
+    {
+      "hash": "0xa273d3e6966edbe0020da6cdfcb3c3c4b87450338c2949d047d29df2de0f9960",
+      "kind": "TestnetFeed"
+    },
+    {
+      "hash": "0x254a0460c6830ab82da7c1d58dea9f9c335cfaf622d40d34975f96a5d411fcb6",
+      "kind": "ForwardEngine"
+    },
+    {
+      "hash": "0x530ef3d07a8679d25fce37353b17117c60eb7708dfffeee7be30d91a68b2a0de",
+      "kind": "TestnetFeed"
+    },
+    {
+      "hash": "0xa3d7b15382b3d32f4cee11fbb11dd010b4c44d6e98e7a4711ef2073e985cb093",
+      "kind": "ForwardEngine"
+    },
+    {
+      "hash": "0xb909d81d4d540b4717d4e11e123a0e03c9e63029c9ee9a042e51565ef83f8218",
+      "kind": "TestnetFeed"
+    },
+    {
+      "hash": "0x2fff5934b25d573bb3753a51d1a02f0380418e8eb9f1c5d71a0110c8ae73991e",
+      "kind": "ForwardEngine"
+    },
+    {
+      "hash": "0xf49f365ec27dacab3c38c6845fa9d1defd85f9572d054909a5f1774ecf365b29",
+      "kind": "TestnetFeed"
+    },
+    {
+      "hash": "0x8fba6678f24756b177f85cae7fc1c99db87660f42bf0aabf679563e8875379c5",
+      "kind": "ForwardEngine"
+    },
+    {
+      "hash": "0xd017bc85fdc8c0f791ba4c2cf85078fd22dd16df4790c6dece88e4d824e27f3d",
+      "kind": "TestnetFeed"
+    },
+    {
+      "hash": "0x771fc6cab8d77aa98f667da7ebbfc0b4050736523710154d99d35c51e9437bf9",
+      "kind": "ForwardEngine"
+    },
+    {
+      "hash": "0x273ba61fac1cdf05a471742b33dabe121bdfa0071f63cbd6f0faec4e4c722dc9",
+      "kind": "TestnetFeed"
+    },
+    {
+      "hash": "0x2d4f1076a2595a25bfcc16d8ab74608cf840771efdd4c533363208e58f8eed67",
+      "kind": "ForwardEngine"
+    },
+    {
+      "hash": "0xcd841efaa7fe407776575080c03aaae849bd12574685a007060733619a4332e6",
+      "kind": "TestnetFeed"
+    },
+    {
+      "hash": "0x93a7ea9190db4688da561e405a6ae7315f898f7a14d7acb19eac7d403ef38adf",
+      "kind": "ForwardEngine"
+    },
+    {
+      "hash": "0xef2a11d3aeb4ce840af8610f37b69da502258c6901d2b7921f8e21f5ecf905bd",
+      "kind": "TestnetFeed"
+    },
+    {
+      "hash": "0xdf666d5aad1429c0bcc54eeeb064fbab34781ed19d65a333d5e729ad344398b3",
+      "kind": "ForwardEngine"
+    },
+    {
+      "hash": "0x76d82409d6698e4e0fbcdd2b2342ab48622fcb6806a738aa3786605c3883d1f6",
+      "kind": "TestnetFeed"
+    },
+    {
+      "hash": "0xbd06682d2439dee95a18b12bd1e31795330f2fad7329840ea9d67cdb5fbf4727",
+      "kind": "ForwardEngine"
+    },
+    {
+      "hash": "0x1dbfa8930db6508f2e7b760f50ee535d465a838bb26c25da9eac4f47fa12bce6",
+      "kind": "TestnetFeed"
+    },
+    {
+      "hash": "0x190546ac6fd85e85bbae7e880481118862c7b9e1287660bab64deb03a09d7a17",
+      "kind": "ForwardEngine"
+    },
+    {
+      "hash": "0xb42e19f8a30bce409f346603d4e0a6909ea0406d6025d7b531d34056e6ce77ab",
+      "kind": "TestnetFeed"
+    },
+    {
+      "hash": "0xc947e5fe8315c4008d1799e6e5ef31bed6cdcaa201023d154121f82c66ef8c99",
+      "kind": "ForwardEngine"
+    },
+    {
+      "hash": "0xc01ba0309c1c6ed334e18f48c88d810d7483f80bd4206c38cf1d99c4d23ff604",
+      "kind": "TestnetFeed"
+    },
+    {
+      "hash": "0x64493f33851129e4b7ce724a3c0f1ec75be431e68daa7a2ef48b9fb1e8266109",
+      "kind": "ForwardEngine"
+    },
+    {
+      "hash": "0x0754556e756afece43d96c94a6bb18814c618f01e58346de45f94c880e45ea34",
+      "kind": "TestnetFeed"
+    },
+    {
+      "hash": "0xffc9b877b93094d515e580b1224b980a92edb75caf550bffc28821173d8714db",
+      "kind": "ForwardEngine"
+    },
+    {
+      "hash": "0x79e36408c7d5c851dea253a4c2221c6caa706c9ad7e57ee0ceaff44b6cce08ed",
+      "kind": "TestnetFeed"
+    },
+    {
+      "hash": "0xf55ee6a05cdd698910e6bbcd0a5952bca77256976f27c0a06fb077ac3c1e5ef6",
+      "kind": "ForwardEngine"
+    },
+    {
+      "hash": "0x361dfc8cc4ebb2368c959885c5d6730d91c3c3b82bcfee46fc9536be6ffd01b9",
+      "kind": "TestnetFeed"
+    },
+    {
+      "hash": "0xd947df6db8a84ad3f12faac59603baefd96862918df0bea8f707d95625ae5ea3",
+      "kind": "ForwardEngine"
+    },
+    {
+      "hash": "0xc76f0103a78e4093f56557b064ea7a26c8c97e5535b01d88604aadca3642e238",
+      "kind": "TestnetFeed"
+    },
+    {
+      "hash": "0x8d1924915d1ab1e496ecde3eb2ddb9b70f30447c85e02fc9a181f3882c216d9b",
+      "kind": "ForwardEngine"
+    },
+    {
+      "hash": "0xc8bda76d3ed66abdd56724cf1a43be0c22666785edadd83ecdf2cb6acc7bce07",
+      "kind": "TestnetFeed"
+    },
+    {
+      "hash": "0x297576926f1c68a6ecb492823f1785ef2565fac7659d5fc43f0ed4e1c50e0066",
+      "kind": "ForwardEngine"
+    },
+    {
+      "hash": "0xcf160fc840c5eb3cd5ea7ffb2cfc9d4b94ec8ba8714b75a8f77b65f19ad2555f",
+      "kind": "TestnetFeed"
+    },
+    {
+      "hash": "0xd75f3682d875a0476ddd98da7b662f2ab7e5f082d3dde882733a0edb93c24911",
+      "kind": "ForwardEngine"
+    },
+    {
+      "hash": "0x962980976c6096bb8224a59c88e1c74af946bc0c180d0c1c681f578de21b9141",
+      "kind": "TestnetFeed"
+    },
+    {
+      "hash": "0xe7c6e8bf6a42d24909e95156f68b92d0ffccefe15183e895fa934801c4b2f255",
+      "kind": "ForwardEngine"
+    },
+    {
+      "hash": "0x6862911f5068851d33237bddeae4f94f2aec020e6d8d025e0b14230f7b44cea8",
+      "kind": "TestnetFeed"
+    },
+    {
+      "hash": "0x954ed2920a6af2510d3c0953171eca8b75784ea1a4d7885921e379f9282e2a42",
+      "kind": "ForwardEngine"
+    },
+    {
+      "hash": "0xdc1b00f496a0c07d746f5a5d2d29a7779e2d2ec024fdd031e41347802013ee3d",
+      "kind": "TestnetFeed"
+    },
+    {
+      "hash": "0x852acabc882287134fbe0820b37443566e798fc638d84f125e4e50d4bd7d9848",
+      "kind": "ForwardEngine"
+    },
+    {
+      "hash": "0xa5988b7d2e64196de4f2c8e4b49352008281e62f4368eff4d3349ac30b3cbf57",
+      "kind": "TestnetFeed"
+    },
+    {
+      "hash": "0xdf1b1f0196dbed96d1dca29e50adcd1f83987cbaac682e74787d5cf207e89738",
+      "kind": "ForwardEngine"
+    },
+    {
+      "hash": "0x7a12d224815e59db13ba44a7a5659b788a418f900ccf7588d0857fd78b347924",
+      "kind": "TestnetFeed"
+    },
+    {
+      "hash": "0x18d800edb683653535b23af8327202b959c4f50bd6674413a38faa7e520017d3",
+      "kind": "ForwardEngine"
+    },
+    {
+      "hash": "0x31b6a13cee65bd0de56e79a8425b4947ba140c1ae38609053a5af38deb8347c2",
+      "kind": "TestnetFeed"
+    },
+    {
+      "hash": "0xa21d3b9bce4e89a6e78b2a360178951ea38516c19c2daf8c0bd0052e226a6810",
+      "kind": "ForwardEngine"
+    },
+    {
+      "hash": "0xe18829f8a17c6d33ddeb20e233c922a0bb987d113a98cc056c19bcfcae483a98",
+      "kind": "TestnetFeed"
+    },
+    {
+      "hash": "0x9410805fd734861cbf33b95334d19f3bf4343476bed1fd74be4bb618887b22bb",
+      "kind": "ForwardEngine"
+    },
+    {
+      "hash": "0x8829d5709d622af23925cb67d66f9a88948b5be6fe120e929f774c3af6a8efd5",
+      "kind": "TestnetFeed"
+    },
+    {
+      "hash": "0x251ecbca6f6d1116971ae5df9396c19f435ef6102352e0ddacda2a10932765d1",
+      "kind": "ForwardEngine"
+    },
+    {
+      "hash": "0x2762554e43eaa7543c2c96c6b6f3f4205a477aad291fbf4804fed389e8aa049c",
+      "kind": "TestnetFeed"
+    },
+    {
+      "hash": "0x420381a0a3b85564c95e0615e364ced9c34fe8429dcd73c15ba00894ef16dee5",
+      "kind": "ForwardEngine"
+    },
+    {
+      "hash": "0xdd6705bb863be960dabadfa579e73796a05b665485834e24f376fa8135185bb1",
+      "kind": "TestnetFeed"
+    },
+    {
+      "hash": "0x956a4da238ec89afce8d7c47216faa26d318f72fa0fab1f6dd11ffcb85175e34",
+      "kind": "ForwardEngine"
+    },
+    {
+      "hash": "0x318c8822eedd6834a4b80f178bde6a1f5645531bbb75dc2e0c3b3187da19b105",
+      "kind": "TestnetFeed"
+    },
+    {
+      "hash": "0x613d8b13d0d21b1965a6a420ab050c9ff03638e9e22982ba9252ff99760d4d8c",
+      "kind": "ForwardEngine"
+    }
+  ],
+  "feedSeedTransactions": [
+    {
+      "symbol": "AAPL",
+      "feed": "0xA160E28270BAbA6191D66835ef6eb159687Ecb03",
+      "price": 342.84350359213664,
+      "hash": "0x22a9276dba3ea8f54bb15258726dc9902d977f8f782e3debedb77e2fbd374a20",
+      "status": "0x1"
+    },
+    {
+      "symbol": "AMD",
+      "feed": "0xD33E03F9815578fEa0e34dc317E43a003b25901c",
+      "price": 439.435,
+      "hash": "0x1b6ab5a0164979d116617feeb85f776229a2e84878ea33a81203a439aa08a075",
+      "status": "0x1"
+    },
+    {
+      "symbol": "AMZN",
+      "feed": "0x62E3D2DFA3929692B389931dE7311421e48D4F56",
+      "price": 250.885,
+      "hash": "0xc828c0eb6327ea6035f8b6d2da710c68b9c527f72c2a84d0f0e46ec2138dee8d",
+      "status": "0x1"
+    },
+    {
+      "symbol": "ASML",
+      "feed": "0x715b5eCC26eC1c7443e060e21Db5B187641FBe55",
+      "price": 1215.2010004176846,
+      "hash": "0x61471afa2f33b3f1c87250ec391249de6163368cdd8faff4a740961bf86922c3",
+      "status": "0x1"
+    },
+    {
+      "symbol": "BABA",
+      "feed": "0x348F7f6D1546c28C5CEEC0e41f464ed31d36FbE2",
+      "price": 81.765,
+      "hash": "0xcdc7827f274c78e77a240333a48413d75b3b9166ef2349734b13d31f86e935f3",
+      "status": "0x1"
+    },
+    {
+      "symbol": "CLSK",
+      "feed": "0xd5e207Bb03Afc456e4a800f96c5908aC84C63fB2",
+      "price": 5.12,
+      "hash": "0x23f9e3888b7c6f315788f33f125e956c756d41536ed99e7dd9dc6d0e79ff8785",
+      "status": "0x1"
+    },
+    {
+      "symbol": "COIN",
+      "feed": "0x2F4108d2FaD0323F8fb9Ad95Cc8903074caD383E",
+      "price": 96.5,
+      "hash": "0x0f66ddca84eabec8cf31212ccf19f3fe5e33a9b8399f61ced5427e4f4fe6646b",
+      "status": "0x1"
+    },
+    {
+      "symbol": "CRCL",
+      "feed": "0x9A88D488507D178DA07Bf7F16a696C7F4B5CE9Be",
+      "price": 52.225,
+      "hash": "0x382261e470f95dfcc98ca45c6e7a789f693dbd11d632ddb5e73fbf3ddd46ed2f",
+      "status": "0x1"
+    },
+    {
+      "symbol": "CRWV",
+      "feed": "0x0681524D4f4917a863Fc073a38Bb8daD4b06D107",
+      "price": 40.62,
+      "hash": "0x158bc50c0d40c8b46c7806ae8ba08df13c83f478c79b086e1c7cdf98e168a34a",
+      "status": "0x1"
+    },
+    {
+      "symbol": "DELL",
+      "feed": "0xaD16c9D1D067D8a95DE2893fAc431d6BEE98165d",
+      "price": 286.09150009824185,
+      "hash": "0xae16b679c619a641c21ad2bfb70860e71112030fb805d634368cd71b896e2fea",
+      "status": "0x1"
+    },
+    {
+      "symbol": "EWY",
+      "feed": "0xa8318259c9E901CA614b82d971b3aD64502fFeDb",
+      "price": 120.57,
+      "hash": "0xb4c84133c60f984f649127fec041738343a46b6dcb00b07a076df7151421b811",
+      "status": "0x1"
+    },
+    {
+      "symbol": "GME",
+      "feed": "0xc9d40AfC16e11872868966F58E5c877c1A4E751A",
+      "price": 26.64,
+      "hash": "0xc99f5656324e0287b6c08b574c5c29f15ef41b6db6f3c5027584dbd00e309ac1",
+      "status": "0x1"
+    },
+    {
+      "symbol": "GOOGL",
+      "feed": "0xE0571128292F2cE90ff08483af6b5ea133Aca4CE",
+      "price": 269.8273159588172,
+      "hash": "0xd9f39d89927cedff5d2ae9dd2128912a2ed496720a4bea1004d3c611aa8dfe8f",
+      "status": "0x1"
+    },
+    {
+      "symbol": "INTC",
+      "feed": "0xc5d990364e371735af214633ab8035013fAF2206",
+      "price": 53.05,
+      "hash": "0xc3973ef34541100102dc9d92e4839c9eed852f186ee71a8ca2e7aa9f7940cb8e",
+      "status": "0x1"
+    },
+    {
+      "symbol": "IONQ",
+      "feed": "0x77116D97e44d05A516FbCfE83989f5C1FC8BACd9",
+      "price": 21.595,
+      "hash": "0x390e72470a066eaa17f1d8390cc83cb7a89effc36a4d292d73427fa34dc5696e",
+      "status": "0x1"
+    },
+    {
+      "symbol": "META",
+      "feed": "0xF0085595BEc5f022ea02731d4F380e8705C4c96A",
+      "price": 551.5134608074519,
+      "hash": "0xf766e86ba6daaf07d4fd9d60540241078714b1455c4e961cea34cf89d7d175ad",
+      "status": "0x1"
+    },
+    {
+      "symbol": "MSFT",
+      "feed": "0x47DD7B562e5e24aaa9280ce0155f10d82Fd20ee7",
+      "price": 490.08988540816017,
+      "hash": "0x6de0688a83bd614539a80c850e29f47341be870ee4fc20e15cb25614b1311868",
+      "status": "0x1"
+    },
+    {
+      "symbol": "MSTR",
+      "feed": "0x3360a355Eeeddd8A0AE66e836948E523E886d737",
+      "price": 79.4,
+      "hash": "0xe62e61f5c1556f5722040b24f9e09c76b7487eadfdecbcd19232f3b589cfdb7e",
+      "status": "0x1"
+    },
+    {
+      "symbol": "MU",
+      "feed": "0x2e62d926386F11c14237031969183e496a9c1cDA",
+      "price": 608.0615324903973,
+      "hash": "0x2f27b86d7c176821533d1567baeb8591f9ebfbbdf1b0a52097c6c9485af61ca2",
+      "status": "0x1"
+    },
+    {
+      "symbol": "NBIS",
+      "feed": "0xdeC0837340076c98a348ea8fE43c251dF0C56005",
+      "price": 107.25,
+      "hash": "0x3b5061ec6f04b9f2ac5c074d33abc255faea2e971ffd8f671b82a6202e402919",
+      "status": "0x1"
+    },
+    {
+      "symbol": "NVDA",
+      "feed": "0x7CF10140b2c7BE34Ba370C140Ad7Aec9A48aE950",
+      "price": 129.8705924047941,
+      "hash": "0xe96775eeb12c188e83db3f8a57aeca9ecf3c651b1bfb7180a0bf15a8c8e990b3",
+      "status": "0x1"
+    },
+    {
+      "symbol": "ORCL",
+      "feed": "0xbE6D4BfC725a133C1201a3a1a80ff651f919C93A",
+      "price": 103.74177117062635,
+      "hash": "0x7eb6948c1b6bc05db7aa7668eaf5364cf30f59d8fdf658b5c3c9053f4b4efbad",
+      "status": "0x1"
+    },
+    {
+      "symbol": "PLTR",
+      "feed": "0x32c8071E4Cc6E1786784E94ebCee1d9b453d4e5f",
+      "price": 146.29500000000002,
+      "hash": "0x702c18e149473c672ae045242feebea065974de179c02db7a0aa17c14f67c3db",
+      "status": "0x1"
+    },
+    {
+      "symbol": "QQQ",
+      "feed": "0xa6dF8F833F98300B35CA3208a636101529490A6f",
+      "price": 584.4042585810246,
+      "hash": "0xbe2bb018d69a6679143070c274b2fc7840c7277e2c28a1cdbcdf9c7aa08bc7b6",
+      "status": "0x1"
+    },
+    {
+      "symbol": "RGTI",
+      "feed": "0x2395b48A2E0f0D589eEaE0321d49c63d86814268",
+      "price": 7.32,
+      "hash": "0xd78e6634388770fff815632ef67a2a9b8bef9d294b611d83ac15d6f4c77679fa",
+      "status": "0x1"
+    },
+    {
+      "symbol": "RKLB",
+      "feed": "0x56213B7C22FdEb8C3FC9Ebad024Ba5942CA16503",
+      "price": 47.55,
+      "hash": "0x0e373b2556933062a5c6b2898e69daba8490c17a51abf817359bb6a60cac128c",
+      "status": "0x1"
+    },
+    {
+      "symbol": "SGOV",
+      "feed": "0xaeaC507806D1d919d2F2959252f42E84E501439a",
+      "price": 101.58805487843898,
+      "hash": "0x588816658d958158c43aa06ef5732b2d34518c734f31e4e724a962de096977f3",
+      "status": "0x1"
+    },
+    {
+      "symbol": "SLV",
+      "feed": "0x3c091Da1BF9be0459D4180C23F828cbB10f9d16d",
+      "price": 38.965,
+      "hash": "0x80766f99d87a9890c41d7ef5a55d463c2f94d4081eb38b72cc64885ade3dd0fe",
+      "status": "0x1"
+    },
+    {
+      "symbol": "SNDK",
+      "feed": "0x51415e3F6F5f8cEe1E30E418F44A33f0d2eBDe2B",
+      "price": 649.72,
+      "hash": "0x2a3b41c7088ff77e5faac40a2dd1d76e5ef56e0e42b449f4a64af90161b7d37e",
+      "status": "0x1"
+    },
+    {
+      "symbol": "SPCX",
+      "feed": "0xB25d76fFAC90507b0f98Dd99c1114eDc7D7fc09f",
+      "price": 129.45,
+      "hash": "0xf154fec01a1c4f0507032e57e45b6982c52fb761d9d7a5671bd9adbcc06b18b9",
+      "status": "0x1"
+    },
+    {
+      "symbol": "SPY",
+      "feed": "0x0531d5174756d07eC4dceD72faaAFAEf8E1260F6",
+      "price": 698.6432043637465,
+      "hash": "0x27c9fc44248b06bb8fb10cdcca3d8101ba336e6fc65495aedab75ea4da6daaad",
+      "status": "0x1"
+    },
+    {
+      "symbol": "TSLA",
+      "feed": "0xd502DAeEB5a7c9A7677Eb5787008c105ddF29769",
+      "price": 350.64,
+      "hash": "0xd166f79d82aac263451c0a7b4d0a41769f6aacd5266a049d68341db71c87a60d",
+      "status": "0x1"
+    },
+    {
+      "symbol": "TSM",
+      "feed": "0xb39D7E87269B4e4d60B71e1bAD98390A44e363FB",
+      "price": 329.41137848556343,
+      "hash": "0x27dded82839259f1b7705d9b0a9ae4c84d1ed9ea92672aaf15b0ce4612aa113a",
+      "status": "0x1"
+    },
+    {
+      "symbol": "USAR",
+      "feed": "0x5aC56bF4392Cac8FD2635e829b848540327d757f",
+      "price": 6.279999999999999,
+      "hash": "0xa9dcb32753ea8c5a69217ea3eb1b48c84e5ff7fdac523990c4b1ac0ec43472b9",
+      "status": "0x1"
+    },
+    {
+      "symbol": "USO",
+      "feed": "0x9d56f7001616aA5d10d3B0ec677CE57327b2184A",
+      "price": 127.84,
+      "hash": "0x69db6752e0bace529e766305e641217c97d465a2af5d82c90f9bbe093a8f2dd1",
+      "status": "0x1"
+    },
+    {
+      "symbol": "GLD",
+      "feed": "0xA811516941F08DEaFd7fd3BA417b79773E5961e5",
+      "price": 316.25,
+      "hash": "0xf708a4317a672b001a02f3af641adfd1cb48f5fcee0d5ce704b8d27d9917e4b1",
+      "status": "0x1"
+    }
+  ],
+  "simMakerVaultSetup": [
+    {
+      "maker": "0x9C6A94B492399d584ba7e18Bc3676a9e9F634349",
+      "hashes": [
+        "0xc766dfb9b4e547a932aefe5f445dd9d8a4e392f02e5755ebdcf2d214034f3c07",
+        "0x204cf45aa0be86b11343148d627671b290861902395e0df2070c3926bdb35608"
+      ]
+    },
+    {
+      "maker": "0x3706b7c5B4033DF1fF0484e587902Af472B68406",
+      "hashes": [
+        "0x842df544e713aa5a9b2c4f3064d0b74925b7b109c716c705dedc99e5fb6bae65",
+        "0xfcb1f96df4f063f6dafd8f1859d6e4dc044f430cd0a1c215805a4805a8fc4e65"
+      ]
+    },
+    {
+      "maker": "0x007405847703918eb690485b6dE3dE42562d75dD",
+      "hashes": [
+        "0xbaa050ea840161309df2fdad67f81df60fafb0aa373f25aef50032a58a9f19c7",
+        "0xc36ba134672129b68ae81dcf5b924586fd97fcaaec2a2899bf9678ad157f4382"
+      ]
+    },
+    {
+      "maker": "0xa40517b30Fe4c8179CdCcfc6906679d097eF795F",
+      "hashes": [
+        "0xb0b44d0d29da757aa88de10e06ec6fd0396e2bd761b3c69b2a0ae84eca5b5584",
+        "0x99b159187e0a68f4b891bc4fce5858bbec7d0f6ae5d6b49663ec7a3e00409a32"
+      ]
+    }
+  ],
+  "forwardLifecycle": {
+    "note": "First real forward fully opened and closed on this testnet, used to verify the maker portal, relay quoting and the mutual-close handshake end to end. Taker is the agent's throwaway test wallet; maker is Sim Maker A.",
+    "forwardId": "1",
+    "maker": "0x9C6A94B492399d584ba7e18Bc3676a9e9F634349",
+    "taker": "0xf1c9fE6816C8f43b3c8f31e020D27BFDed49d31A",
+    "ticker": "NVDA",
+    "side": "LONG",
+    "qty": "100000000000000000000",
+    "maturityCloseTs": 1796418000,
+    "openTx": "0x89c8848a6e9ac995dcc12515f616973d688f9bc9b7d6caf28aaed701efdafd6b",
+    "closeByMutual": {
+      "price8dp": "13500000000",
+      "tx": "0x7dd08e647d41972615c4ede51efb5b001414526b5c8036fbd61579179a3b4dbc",
+      "statusAfter": "Closed (4)"
+    }
+  }
+}

@@ -1,0 +1,314 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink-950: #0a0c12;
+  --color-ink-900: #11141c;
+  --color-ink-800: #1a1e29;
+  --color-ink-700: #2a2f3d;
+  --color-slate-500: #5d6475;
+  --color-slate-300: #a2a9b8;
+  --color-mist-100: #e6e8ee;
+  --color-paper-50: #f7f7f4;
+  --color-signal-500: #ffb020;
+  --color-signal-300: #ffd27a;
+  --color-pos-500: #3ddc97;
+  --color-neg-500: #ff5c5c;
+  --color-info-500: #6c8cff;
+  --font-sans: var(--font-sans-body), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-mono-label), ui-monospace, monospace;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-ink-950);
+  color: var(--color-mist-100);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--color-signal-500);
+  color: var(--color-ink-950);
+}
+
+.mono-label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-slate-300);
+}
+
+.h1-display {
+  font-size: clamp(2.6rem, 6.2vw, 4.75rem);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  font-weight: 600;
+}
+
+/* Flow lines: quotes converge, then the block fills. */
+@keyframes flow {
+  from {
+    stroke-dashoffset: 260;
+  }
+
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.flow-line {
+  stroke-dasharray: 130 130;
+  animation: flow 4.8s linear infinite;
+}
+
+@keyframes ticker {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.ticker-track {
+  animation: ticker 70s linear infinite;
+  width: max-content;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flow-line {
+    animation-duration: 40s;
+  }
+
+  .ticker-track {
+    animation-duration: 400s;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+details>summary {
+  list-style: none;
+  cursor: pointer;
+}
+
+details>summary::-webkit-details-marker {
+  display: none;
+}
+
+details[open] .faq-sign::before {
+  content: "−";
+}
+
+.faq-sign::before {
+  content: "+";
+}
+
+/* Scroll reveal: hidden only once JS has armed it. */
+.r-ready [data-r] {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.9s cubic-bezier(.2, .7, .2, 1), transform 0.9s cubic-bezier(.2, .7, .2, 1);
+}
+
+.r-ready [data-r].in {
+  opacity: 1;
+  transform: none;
+}
+
+.r-ready [data-r]:nth-child(2) {
+  transition-delay: .08s;
+}
+
+.r-ready [data-r]:nth-child(3) {
+  transition-delay: .16s;
+}
+
+.r-ready [data-r]:nth-child(4) {
+  transition-delay: .24s;
+}
+
+.r-ready [data-r]:nth-child(5) {
+  transition-delay: .32s;
+}
+
+.r-ready [data-r]:nth-child(6) {
+  transition-delay: .4s;
+}
+
+.r-ready [data-r="line"] {
+  transform: none;
+  border-color: transparent;
+}
+
+.r-ready [data-r="line"].in {
+  border-color: var(--color-ink-700);
+}
+
+.hero-in>* {
+  animation: heroIn 1s cubic-bezier(.2, .7, .2, 1) both;
+}
+
+.hero-in>*:nth-child(2) {
+  animation-delay: .12s;
+}
+
+.hero-in>*:nth-child(3) {
+  animation-delay: .26s;
+}
+
+.hero-in>*:nth-child(4) {
+  animation-delay: .4s;
+}
+
+.hero-in>*:nth-child(5) {
+  animation-delay: .55s;
+}
+
+@keyframes heroIn {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.ticker-wrap {
+  mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+}
+
+.row-hover:hover {
+  background: var(--color-ink-800);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .r-ready [data-r] {
+    transition-duration: .01s;
+  }
+
+  .hero-in>* {
+    animation-duration: .01s;
+  }
+}
+
+@keyframes slideL {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-120px);
+  }
+}
+
+@keyframes tileIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.tile-in {
+  animation: tileIn .5s cubic-bezier(.2, .7, .2, 1) both;
+}
+
+.draw {
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 1.6s cubic-bezier(.6, 0, .2, 1);
+}
+
+.in .draw,
+.draw.in {
+  transform: scaleX(1);
+}
+
+.outline-num {
+  -webkit-text-stroke: 1px var(--color-ink-700);
+  color: transparent;
+  transition: color .9s .2s, -webkit-text-stroke-color .9s .2s;
+}
+
+.in .outline-num,
+.outline-num.in {
+  color: var(--color-signal-500);
+  -webkit-text-stroke-color: var(--color-signal-500);
+}
+
+.panel {
+  transition: border-color .15s;
+}
+
+.panel:hover {
+  border-color: var(--color-signal-500);
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee {
+  animation: marquee 38s linear infinite;
+  width: max-content;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee {
+    animation-duration: 240s;
+  }
+
+  .tile-in {
+    animation: none;
+  }
+}
+
+.spot-grid {
+  background: radial-gradient(320px circle at var(--mx, -999px) var(--my, -999px), rgba(255, 176, 32, .55), var(--color-ink-700) 70%);
+  background-color: var(--color-ink-700);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.fade-in {
+  animation: fadeIn .45s ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fade-in {
+    animation: none;
+  }
+}

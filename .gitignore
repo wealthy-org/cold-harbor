@@ -1,0 +1,24 @@
+# secrets and local env (never commit)
+.env
+.env.*
+!.env.example
+**/.secrets/
+**/.env.local*
+**/.env.testnet
+
+# build output
+node_modules/
+.next/
+out/
+cache/
+broadcast/
+*.tsbuildinfo
+next-env.d.ts
+
+# contracts
+contracts/lib/
+contracts/deployments/chain-*.json
+contracts/deployments/rehearsal-*.json
+
+# misc
+.DS_Store
