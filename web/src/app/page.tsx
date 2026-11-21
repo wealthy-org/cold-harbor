@@ -84,7 +84,7 @@ function TickerStrip() {
 function Facts() {
   const facts: [React.ReactNode, string][] = [
     [<CountUp key="n" value={36} />, "Stocks and ETFs at launch"],
-    [<CountUp key="c" value={4663} />, "Robinhood Chain mainnet ID"],
+    ["$50K to $5M", "Block size per request"],
     ["1 tx", "Atomic settlement, all or revert"],
     ["16:00 NY", "Official close sets forward price"],
   ];
@@ -107,10 +107,10 @@ function Facts() {
 
 const PRODUCTS = [
   { name: "Block RFQ", Motif: RfqMotif,
-    line: "Ask several makers for one firm price on $50K to $5M of a stock token. Execute against the best signed quote. Tokens swap and the fee is taken in a single transaction, or everything reverts.",
-    facts: ["EIP-712 signed quotes", "Private to your wallet", "15 to 30 second validity"] },
+    line: "One firm price on $50K to $5M. Best signed quote wins. One transaction, or it reverts.",
+    facts: ["Signed, firm quotes", "Private to your wallet", "15 to 30 second validity"] },
   { name: "Forwards", Motif: ForwardMotif,
-    line: "Long or short a stock on a date you pick, collateralized in USDG. Maturity is an official US market close. The price is read from Chainlink with Pyth Pro as backup, and anyone can audit it.",
+    line: "Long or short to a date you pick. USDG margin. Settled at the official US close, priced by public oracles.",
     facts: ["1 week to 3 months", "10K to 1M USDG per position", "Margin calls and keeper liquidation"] },
   { name: "Maker API", Motif: ApiMotif,
     line: "Stream RFQs over WebSocket, answer with signed quotes, hedge on Arcus or Lighter, and track hit rate and exposure per ticker. Set limits per ticker and per taker.",
@@ -137,8 +137,7 @@ function Products() {
                 </ul>
               </div>
               <div className="panel col-span-12 h-52 border border-ink-700 bg-ink-900 p-5 lg:col-span-5 lg:h-64">
-                <p className="mono-label mb-2 !text-slate-500">Illustration</p>
-                <div className="h-[calc(100%-1.5rem)]"><p.Motif /></div>
+                <div className="h-full"><p.Motif /></div>
               </div>
             </article>
           ))}
@@ -185,7 +184,7 @@ function Traded() {
     ["On-chain traders", "$50K to $5M of a stock token at a firm price, without AMM slippage."],
     ["Funds and treasuries", "US equity exposure around the clock, or a hedge, without holding the token."],
     ["Market makers", "Large, non-toxic order flow, quoted from your own engine."],
-    ["Integrators", "Firm liquidity for wallets and aggregators through a public API. Phase 2."],
+    ["Integrators", "Firm liquidity for wallets and aggregators. Coming in phase 2."],
   ];
   const why = ["Signed, firm quotes", "One-transaction settlement", "Makers compete per request", "Settlement from public oracles", "Self-custody", "RFQ open 24/7"];
   const loop = [...why, ...why];
@@ -251,7 +250,7 @@ function Makers() {
       <div className="mx-auto grid max-w-[1440px] grid-cols-12 gap-x-0 gap-y-16 lg:gap-x-10 px-4 py-24 lg:px-16 lg:py-36">
         <div data-r className="col-span-12 min-w-0 lg:col-span-5">
           <p className="mono-label mb-6 flex items-center gap-4"><span className="text-signal-500">05</span><span className="h-px w-10 bg-ink-700" />Market makers</p>
-          <h2 className="text-[2.2rem] font-semibold leading-[1.05] tracking-[-0.025em] lg:text-[3.6rem]">Quote large flow. Hedge where you already trade.</h2>
+          <h2 className="text-[2.2rem] font-semibold leading-[1.05] tracking-[-0.025em] lg:text-[3.6rem]">Quote size flow. Keep your engine.</h2>
           <p className="mt-6 max-w-md leading-relaxed text-slate-300">Hedge on Arcus perps or Lighter on the same chain. Keep your limits, your signer and your pricing logic.</p>
           <ol className="mt-10 border-t border-ink-700">
             {steps.map((s, i) => (
@@ -260,7 +259,7 @@ function Makers() {
               </li>
             ))}
           </ol>
-          <div className="mt-10"><PillButton href="/mm">Apply as a maker</PillButton></div>
+          <div className="mt-10"><PillButton href="/mm">Apply to quote</PillButton></div>
         </div>
         <div data-r className="col-span-12 min-w-0 lg:col-span-7">
           <div className="panel border border-ink-700 bg-ink-900">
@@ -284,7 +283,7 @@ const FAQ = [
   ["What happens if a quote expires?", "The contract rejects it. Quotes carry an expiry and a one-time nonce, and a maker can cancel a nonce at any time."],
   ["How is a forward priced at maturity?", "From the Chainlink feed at the official US close, with Pyth Pro as backup. If no valid price exists, settlement is deferred and anyone can retry."],
   ["What about splits and other corporate actions?", "Stock tokens expose a multiplier and the feed already reflects it. While an action is processing, settlement and liquidation pause and the app says so."],
-  ["Are cash dividends adjusted in forwards?", "Not in the first release. Makers price expected dividends into the strike. This is still being confirmed against Robinhood documentation."],
+  ["Are cash dividends adjusted in forwards?", "Not in the first release. Makers price expected dividends into the strike."],
 ];
 
 function FaqSection() {
@@ -312,7 +311,7 @@ function Cta() {
           </p>
           <div className="mt-10 flex flex-wrap items-center gap-4">
             <PillButton href="/app">Launch app</PillButton>
-            <PillButton href="/mm" variant="ghost">Apply as a maker</PillButton>
+            <PillButton href="/mm" variant="ghost">Apply to quote</PillButton>
           </div>
         </div>
         <div data-r className="col-span-12 h-[300px] lg:col-span-6 lg:h-[440px]"><CtaScene /></div>

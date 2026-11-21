@@ -360,7 +360,7 @@ export default function MakerPortal() {
                 </h1>
 
                 <p className="mt-8 max-w-lg text-lg leading-relaxed text-slate-300">
-                  Prove ownership of your quoting address via a single off-chain cryptographic signature. No gas, no transaction fee, and no approvals required.
+                  Sign once to verify your signer. No gas to log in.
                 </p>
 
                 <div className="mt-10 flex flex-wrap items-center gap-4">
