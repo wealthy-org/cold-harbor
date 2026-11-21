@@ -10,6 +10,33 @@ import {Ownable, Ownable2Step} from "@openzeppelin/contracts/access/Ownable2Step
 import {Pausable} from "@openzeppelin/contracts/utils/Pausable.sol";
 import {ReentrancyGuard} from "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 
+/// @dev Minimal Permit2 SignatureTransfer interface (Uniswap's canonical deployment, same address on
+///      every EVM chain including Robinhood Chain). Lets a taker skip a separate `approve` transaction.
+interface ISignatureTransfer {
+    struct TokenPermissions {
+        address token;
+        uint256 amount;
+    }
+
+    struct PermitTransferFrom {
+        TokenPermissions permitted;
+        uint256 nonce;
+        uint256 deadline;
+    }
+
+    struct SignatureTransferDetails {
+        address to;
+        uint256 requestedAmount;
+    }
+
+    function permitTransferFrom(
+        PermitTransferFrom calldata permit,
+        SignatureTransferDetails calldata transferDetails,
+        address owner,
+        bytes calldata signature
+    ) external;
+}
+
 /// @title ColdHarborSettlement
 /// @notice Atomic settlement of market-maker-signed RFQ quotes between a tokenized stock and USDG.
 /// @dev Non-custodial: the contract never holds user funds between calls. Every fill is one transaction
@@ -46,6 +73,9 @@ contract ColdHarborSettlement is EIP712, Ownable2Step, Pausable, ReentrancyGuard
 
     /// @notice The quote currency. Exactly one side of every quote must be USDG.
     address public immutable USDG;
+    /// @notice Canonical Permit2 (same address on every chain, including Robinhood Chain). Lets a taker
+    ///         sign instead of calling `approve` before `fillQuoteWithPermit2`.
+    ISignatureTransfer public immutable PERMIT2;
 
     uint16 public feeBps;
     address public feeRecipient;
@@ -84,14 +114,16 @@ contract ColdHarborSettlement is EIP712, Ownable2Step, Pausable, ReentrancyGuard
     error FeeMismatch();
     error FeeTooHigh();
     error ZeroAddress();
+    error InvalidPermit2Amount();
 
-    constructor(address usdg, address feeRecipient_, uint16 feeBps_, address owner_)
+    constructor(address usdg, address feeRecipient_, uint16 feeBps_, address owner_, address permit2_)
         EIP712("Cold Harbor", "1")
         Ownable(owner_)
     {
-        if (usdg == address(0) || feeRecipient_ == address(0)) revert ZeroAddress();
+        if (usdg == address(0) || feeRecipient_ == address(0) || permit2_ == address(0)) revert ZeroAddress();
         if (feeBps_ > MAX_FEE_BPS) revert FeeTooHigh();
         USDG = usdg;
+        PERMIT2 = ISignatureTransfer(permit2_);
         feeRecipient = feeRecipient_;
         feeBps = feeBps_;
         emit FeeRecipientSet(feeRecipient_);
@@ -106,6 +138,41 @@ contract ColdHarborSettlement is EIP712, Ownable2Step, Pausable, ReentrancyGuard
         _verifyMakerSig(q, makerSig);
         _useNonce(q.maker, q.nonceBucket, q.nonce); // effects before interactions
         uint256 fee = _settle(q, takerBuysStock);
+        emit QuoteFilled(q.rfqId, q.maker, q.taker, q.makerToken, q.takerToken, q.makerAmount, q.takerAmount, fee);
+    }
+
+    /// @notice Same as `fillQuote`, but the taker's leg is pulled via a Permit2 signature instead of a
+    ///         prior `approve` transaction. `p.permitted` must match the taker's token and full outlay
+    ///         (takerAmount, plus the fee on top when the taker is buying stock).
+    function fillQuoteWithPermit2(
+        Quote calldata q,
+        bytes calldata makerSig,
+        ISignatureTransfer.PermitTransferFrom calldata p,
+        bytes calldata takerSig
+    ) external nonReentrant whenNotPaused {
+        bool takerBuysStock = _validate(q);
+        _verifyMakerSig(q, makerSig);
+        _useNonce(q.maker, q.nonceBucket, q.nonce); // effects before interactions
+
+        uint256 fee = ((takerBuysStock ? q.takerAmount : q.makerAmount) * feeBps) / BPS;
+        uint256 takerOutlay = takerBuysStock ? q.takerAmount + fee : q.takerAmount;
+        if (p.permitted.token != q.takerToken || p.permitted.amount != takerOutlay) revert InvalidPermit2Amount();
+
+        PERMIT2.permitTransferFrom(
+            p, ISignatureTransfer.SignatureTransferDetails({to: address(this), requestedAmount: takerOutlay}), q.taker, takerSig
+        );
+
+        if (takerBuysStock) {
+            // The taker's full outlay (takerAmount + fee) is already sitting in this contract.
+            IERC20(q.takerToken).safeTransfer(q.maker, q.takerAmount);
+            if (fee != 0) IERC20(q.takerToken).safeTransfer(feeRecipient, fee);
+            IERC20(q.makerToken).safeTransferFrom(q.maker, q.taker, q.makerAmount);
+        } else {
+            IERC20(q.takerToken).safeTransfer(q.maker, q.takerAmount);
+            IERC20(q.makerToken).safeTransferFrom(q.maker, q.taker, q.makerAmount - fee);
+            if (fee != 0) IERC20(q.makerToken).safeTransferFrom(q.maker, feeRecipient, fee);
+        }
+
         emit QuoteFilled(q.rfqId, q.maker, q.taker, q.makerToken, q.takerToken, q.makerAmount, q.takerAmount, fee);
     }
 

@@ -2,8 +2,9 @@
 pragma solidity 0.8.28;
 
 import {Test} from "forge-std/Test.sol";
-import {ColdHarborSettlement as CH} from "../src/ColdHarborSettlement.sol";
+import {ColdHarborSettlement as CH, ISignatureTransfer} from "../src/ColdHarborSettlement.sol";
 import {MockERC20} from "./mocks/MockERC20.sol";
+import {MockPermit2} from "./mocks/MockPermit2.sol";
 
 contract ERC1271Maker {
     bytes32 public okDigest;
@@ -25,6 +26,7 @@ contract ColdHarborSettlementTest is Test {
     CH ch;
     MockERC20 usdg; // 6 decimals
     MockERC20 nvda; // 18 decimals
+    MockPermit2 permit2;
 
     address owner = makeAddr("owner");
     address feeTo = makeAddr("feeTo");
@@ -41,7 +43,8 @@ contract ColdHarborSettlementTest is Test {
         hot = vm.addr(hotPk);
         usdg = new MockERC20("USDG", "USDG", 6);
         nvda = new MockERC20("NVDA", "NVDA", 18);
-        ch = new CH(address(usdg), feeTo, FEE, owner);
+        permit2 = new MockPermit2();
+        ch = new CH(address(usdg), feeTo, FEE, owner, address(permit2));
         vm.prank(owner);
         ch.setTokenAllowed(address(nvda), true);
 
@@ -52,6 +55,8 @@ contract ColdHarborSettlementTest is Test {
         vm.startPrank(taker);
         usdg.approve(address(ch), type(uint256).max);
         nvda.approve(address(ch), type(uint256).max);
+        usdg.approve(address(permit2), type(uint256).max);
+        nvda.approve(address(permit2), type(uint256).max);
         vm.stopPrank();
         vm.startPrank(maker);
         usdg.approve(address(ch), type(uint256).max);
@@ -385,11 +390,13 @@ contract ColdHarborSettlementTest is Test {
 
     function test_constructor_guards() public {
         vm.expectRevert(CH.ZeroAddress.selector);
-        new CH(address(0), feeTo, 8, owner);
+        new CH(address(0), feeTo, 8, owner, address(permit2));
         vm.expectRevert(CH.ZeroAddress.selector);
-        new CH(address(usdg), address(0), 8, owner);
+        new CH(address(usdg), address(0), 8, owner, address(permit2));
         vm.expectRevert(CH.FeeTooHigh.selector);
-        new CH(address(usdg), feeTo, 101, owner);
+        new CH(address(usdg), feeTo, 101, owner, address(permit2));
+        vm.expectRevert(CH.ZeroAddress.selector);
+        new CH(address(usdg), feeTo, 8, owner, address(0));
     }
 
     function test_ownership_twoStep() public {
@@ -485,5 +492,99 @@ contract ColdHarborSettlementTest is Test {
         q.expiry += uint64(extra);
         vm.expectRevert(CH.InvalidSignature.selector);
         _fill(q, sig);
+    }
+
+    // ------------------------------------------------------------ Permit2 (dev brief 7.1)
+
+    function _permit(address token, uint256 amount, uint256 nonce) internal view returns (ISignatureTransfer.PermitTransferFrom memory) {
+        return ISignatureTransfer.PermitTransferFrom({
+            permitted: ISignatureTransfer.TokenPermissions({token: token, amount: amount}),
+            nonce: nonce,
+            deadline: block.timestamp + 60
+        });
+    }
+
+    function test_permit2_buyMovesAssetsAndTakesFeeOnTop() public {
+        CH.Quote memory q = _buyQuote(); // takerToken = usdg, takerAmount 711_600e6
+        uint256 fee = (uint256(q.takerAmount) * FEE) / 10_000;
+
+        // taker is a plain makeAddr() with no known private key; re-derive one just for Permit2 signing.
+        uint256 takerPk = 0x7A4E7;
+        address takerAddr = vm.addr(takerPk);
+        usdg.mint(takerAddr, 10_000_000e6);
+        vm.startPrank(takerAddr);
+        usdg.approve(address(permit2), type(uint256).max);
+        nvda.approve(address(permit2), type(uint256).max);
+        vm.stopPrank();
+
+        q.taker = takerAddr;
+        bytes memory makerSig = _sign(makerPk, q);
+        ISignatureTransfer.PermitTransferFrom memory p = _permit(address(usdg), q.takerAmount + fee, 2);
+        bytes32 digest = permit2.hashPermit(p, address(ch));
+        (uint8 v, bytes32 r, bytes32 s) = vm.sign(takerPk, digest);
+        bytes memory takerSig = abi.encodePacked(r, s, v);
+
+        uint256 makerUsdgBefore = usdg.balanceOf(maker);
+        uint256 feeBefore = usdg.balanceOf(feeTo);
+
+        vm.prank(takerAddr);
+        ch.fillQuoteWithPermit2(q, makerSig, p, takerSig);
+
+        assertEq(usdg.balanceOf(maker), makerUsdgBefore + q.takerAmount, "maker received takerAmount");
+        assertEq(usdg.balanceOf(feeTo), feeBefore + fee, "fee recipient received the fee on top");
+        assertEq(nvda.balanceOf(takerAddr), q.makerAmount, "taker received the stock");
+    }
+
+    function test_permit2_wrongAmountReverts() public {
+        uint256 takerPk = 0x7A4E7;
+        address takerAddr = vm.addr(takerPk);
+        usdg.mint(takerAddr, 10_000_000e6);
+        vm.prank(takerAddr);
+        usdg.approve(address(permit2), type(uint256).max);
+
+        CH.Quote memory q = _buyQuote();
+        q.taker = takerAddr;
+        bytes memory makerSig = _sign(makerPk, q);
+        ISignatureTransfer.PermitTransferFrom memory p = _permit(address(usdg), q.takerAmount, 3); // missing the fee on top
+        bytes32 digest = permit2.hashPermit(p, address(ch));
+        (uint8 v, bytes32 r, bytes32 s) = vm.sign(takerPk, digest);
+        bytes memory takerSig = abi.encodePacked(r, s, v);
+
+        vm.prank(takerAddr);
+        vm.expectRevert(CH.InvalidPermit2Amount.selector);
+        ch.fillQuoteWithPermit2(q, makerSig, p, takerSig);
+    }
+
+    function test_permit2_replayedNonceReverts() public {
+        uint256 takerPk = 0x7A4E7;
+        address takerAddr = vm.addr(takerPk);
+        usdg.mint(takerAddr, 10_000_000e6);
+        nvda.mint(takerAddr, 100_000e18);
+        vm.startPrank(takerAddr);
+        usdg.approve(address(permit2), type(uint256).max);
+        nvda.approve(address(permit2), type(uint256).max);
+        vm.stopPrank();
+
+        CH.Quote memory q = _buyQuote();
+        q.taker = takerAddr;
+        uint256 fee = (uint256(q.takerAmount) * FEE) / 10_000;
+        bytes memory makerSig = _sign(makerPk, q);
+        ISignatureTransfer.PermitTransferFrom memory p = _permit(address(usdg), q.takerAmount + fee, 9);
+        bytes32 digest = permit2.hashPermit(p, address(ch));
+        (uint8 v, bytes32 r, bytes32 s) = vm.sign(takerPk, digest);
+        bytes memory takerSig = abi.encodePacked(r, s, v);
+
+        vm.prank(takerAddr);
+        ch.fillQuoteWithPermit2(q, makerSig, p, takerSig);
+
+        // A second, different quote reusing the same Permit2 nonce must fail even though the EIP-712
+        // quote nonce differs -- Permit2's own nonce bitmap is the replay guard for the signature itself.
+        CH.Quote memory q2 = q;
+        q2.nonce = q.nonce + 1;
+        q2.rfqId = keccak256("rfq-permit2-replay");
+        bytes memory makerSig2 = _sign(makerPk, q2);
+        vm.prank(takerAddr);
+        vm.expectRevert(MockPermit2.NonceAlreadyUsed.selector);
+        ch.fillQuoteWithPermit2(q2, makerSig2, p, takerSig);
     }
 }

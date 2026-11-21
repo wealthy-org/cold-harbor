@@ -3,10 +3,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
-import { formatUnits, parseUnits } from "viem";
+import { formatUnits, parseUnits, type Address } from "viem";
 import ConnectButton from "@/components/app/ConnectButton";
-import { useWallet } from "@/components/app/WalletProvider";
-import { RELAY_URL, CHAIN_ID } from "@/lib/chain";
+import { erc20Abi, faucetAbi } from "@/lib/abi";
+import { vaultAbi } from "@/lib/forwards";
+import { useTx } from "@/components/app/useTx";
+import { publicClient, useWallet } from "@/components/app/WalletProvider";
+import { RELAY_URL, CHAIN_ID, FW_VAULT, USDG, USDG_DECIMALS, IS_MAINNET } from "@/lib/chain";
 import HeroField from "@/components/HeroField";
 
 type Limit = { ticker: string; maxNotional: string; maxOpenForwards: number };
@@ -76,6 +79,105 @@ function RelayInfoPanel() {
           Your signed quotes must use the domain matching the product you&apos;re quoting. See <code className="text-signal-400">/docs</code> for the full field layout.
         </div>
       </div>
+    </div>
+  );
+}
+
+/* ——— Maker margin: deposit/withdraw USDG into the same MarginVault forwards use. ——— */
+function MakerMarginPanel() {
+  const { account } = useWallet();
+  const [state, setState] = useState<{ free: bigint; wallet: bigint; allowance: bigint } | null>(null);
+  const [amt, setAmt] = useState("");
+  const [tick, setTick] = useState(0);
+  const tx = useTx(() => setTick((t) => t + 1));
+
+  useEffect(() => {
+    if (!account || !FW_VAULT || !USDG) return;
+    let dead = false;
+    (async () => {
+      const [free, wallet, allowance] = await Promise.all([
+        publicClient.readContract({ address: FW_VAULT, abi: vaultAbi, functionName: "freeMargin", args: [account] }),
+        publicClient.readContract({ address: USDG, abi: erc20Abi, functionName: "balanceOf", args: [account] }),
+        publicClient.readContract({ address: USDG, abi: erc20Abi, functionName: "allowance", args: [account, FW_VAULT] }),
+      ]);
+      if (!dead) setState({ free, wallet, allowance });
+    })().catch(() => {});
+    return () => {
+      dead = true;
+    };
+  }, [account, tick]);
+
+  if (!FW_VAULT || !USDG) return null;
+  const vault = FW_VAULT as Address;
+  const usdgAddr = USDG as Address;
+  let parsed: bigint | null = null;
+  try {
+    parsed = amt ? parseUnits(amt, USDG_DECIMALS) : null;
+  } catch {
+    parsed = null;
+  }
+
+  return (
+    <div className="rounded-2xl border border-ink-700 bg-ink-900/90 p-8 shadow-xl">
+      <div className="flex items-center justify-between border-b border-ink-700/80 pb-5">
+        <div>
+          <h3 className="text-xl font-semibold tracking-tight text-mist-100">Forward Margin (MarginVault)</h3>
+          <p className="mt-1 text-sm text-slate-400">Deposit USDG here before quoting forwards. The engine locks margin from this balance when your quote fills.</p>
+        </div>
+      </div>
+
+      <div className="mt-6 flex flex-wrap items-end gap-6">
+        <div>
+          <p className="mono-label text-slate-500">Free margin</p>
+          <p className="mt-1 font-mono text-2xl text-mist-100">{state ? formatUnits(state.free, USDG_DECIMALS) : "…"} USDG</p>
+        </div>
+        <div>
+          <p className="mono-label text-slate-500">Wallet USDG</p>
+          <p className="mt-1 font-mono text-2xl text-mist-100">{state ? formatUnits(state.wallet, USDG_DECIMALS) : "…"} USDG</p>
+        </div>
+
+        <div className="ml-auto flex flex-wrap items-center gap-3">
+          <input
+            aria-label="USDG amount"
+            inputMode="decimal"
+            placeholder="USDG"
+            value={amt}
+            onChange={(e) => /^\d*\.?\d*$/.test(e.target.value) && setAmt(e.target.value)}
+            className="h-11 w-36 rounded-lg border border-ink-700 bg-ink-950 px-3 font-mono text-mist-100 outline-none focus:border-signal-500"
+          />
+          <button
+            disabled={!account || !parsed || !!tx.busy}
+            onClick={() => {
+              if (!parsed) return;
+              const reqs = [];
+              if ((state?.allowance ?? 0n) < parsed) reqs.push({ address: usdgAddr, abi: erc20Abi, functionName: "approve", args: [vault, parsed] });
+              reqs.push({ address: vault, abi: vaultAbi, functionName: "deposit", args: [parsed] });
+              void tx.run("Depositing", reqs);
+            }}
+            className="h-11 rounded-lg bg-signal-500 px-5 text-sm font-semibold text-ink-950 hover:bg-signal-400 disabled:opacity-40"
+          >
+            Deposit
+          </button>
+          <button
+            disabled={!account || !parsed || !!tx.busy}
+            onClick={() => parsed && void tx.run("Withdrawing", [{ address: vault, abi: vaultAbi, functionName: "withdraw", args: [parsed] }])}
+            className="h-11 rounded-lg border border-ink-700 px-5 text-sm text-slate-300 hover:border-signal-500 hover:text-mist-100 disabled:opacity-40"
+          >
+            Withdraw
+          </button>
+          {!IS_MAINNET && account && (
+            <button
+              disabled={!!tx.busy}
+              onClick={() => void tx.run("Minting test USDG", [{ address: usdgAddr, abi: faucetAbi, functionName: "mint", args: [account, 1_000_000n * 10n ** BigInt(USDG_DECIMALS)] }])}
+              className="h-11 rounded-lg border border-signal-500/40 px-5 text-sm text-signal-500 hover:bg-signal-500/10 disabled:opacity-40"
+            >
+              Get 1,000,000 test USDG
+            </button>
+          )}
+        </div>
+      </div>
+      {tx.busy && <p className="mt-4 text-sm text-signal-500">{tx.busy}… confirm in your wallet</p>}
+      {tx.error && <p className="mt-4 text-sm text-neg-500">{tx.error}</p>}
     </div>
   );
 }
@@ -391,6 +493,9 @@ export default function MakerPortal() {
                 </div>
               </div>
             )}
+
+            {/* Margin Panel */}
+            <MakerMarginPanel />
 
             {/* Limits Panel */}
             <div className="rounded-2xl border border-ink-700 bg-ink-900/90 p-8 shadow-xl">

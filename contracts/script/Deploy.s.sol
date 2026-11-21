@@ -11,12 +11,16 @@ import {ColdHarborSettlement} from "../src/ColdHarborSettlement.sol";
 contract Deploy is Script {
     uint256 constant RH_MAINNET = 4663;
     uint256 constant RH_TESTNET = 46630;
+    /// @dev Uniswap's canonical Permit2 deployment, same address on every EVM chain. Override with the
+    ///      PERMIT2 env var only if a chain is ever missing it.
+    address constant PERMIT2_DEFAULT = 0x000000000022D473030F116dDEE9F6B43aC78BA3;
 
     function run() external returns (ColdHarborSettlement ch) {
         address usdg = vm.envAddress("USDG");
         address feeRecipient = vm.envAddress("FEE_RECIPIENT");
         uint16 feeBps = uint16(vm.envUint("FEE_BPS"));
         address owner = vm.envAddress("OWNER");
+        address permit2 = vm.envOr("PERMIT2", PERMIT2_DEFAULT);
         address[] memory stocks = vm.envOr("STOCK_TOKENS", ",", new address[](0));
 
         if (block.chainid == RH_MAINNET) {
@@ -29,7 +33,7 @@ contract Deploy is Script {
         require(usdg.code.length != 0, "USDG has no code on this chain");
 
         vm.startBroadcast();
-        ch = new ColdHarborSettlement(usdg, feeRecipient, feeBps, owner);
+        ch = new ColdHarborSettlement(usdg, feeRecipient, feeBps, owner, permit2);
         vm.stopBroadcast();
 
         // Token allowlist is owner-gated; when owner == broadcaster (testnet) it can be set in the same run.

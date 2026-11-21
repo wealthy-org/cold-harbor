@@ -149,6 +149,41 @@ export function createPortal(opts: { db: Db; chain: Chain; hub: Hub; chainId: nu
         return { status: 200, body: { items: r.rows } };
       }
 
+      if (method === "GET" && path === "/mm/positions") {
+        const r = await db.query(
+          `SELECT id, taker, ticker, taker_side, qty, strike, maturity_close_ts, status, open_tx
+             FROM forwards WHERE maker = $1 ORDER BY id DESC LIMIT 200`,
+          [s.wallet]
+        );
+        return { status: 200, body: { items: r.rows } };
+      }
+
+      if (method === "GET" && path === "/mm/stats") {
+        const q = await db.query(
+          `SELECT outcome, received_ms FROM quotes WHERE mm_id = $1 AND received_ms IS NOT NULL ORDER BY id DESC LIMIT 500`,
+          [s.accountId]
+        );
+        const total = q.rows.length;
+        const won = q.rows.filter((x) => x.outcome === "won" || x.outcome === "filled").length;
+        const latencies = q.rows.map((x) => Number(x.received_ms)).sort((a, b) => a - b);
+        const medianLatencyMs = latencies.length ? latencies[Math.floor(latencies.length / 2)] : null;
+        const vol = await db.query(
+          `SELECT COALESCE(SUM(maker_amount::numeric), 0)::text AS total FROM fills WHERE maker = $1 AND block_time > now() - interval '24 hours'`,
+          [s.wallet]
+        );
+        const openForwards = await db.query(`SELECT count(*)::int AS n FROM forwards WHERE maker = $1 AND status = 'open'`, [s.wallet]);
+        return {
+          status: 200,
+          body: {
+            quotesLast500: total,
+            hitRate: total ? won / total : null,
+            medianLatencyMs,
+            volume24hBaseUnits: vol.rows[0].total,
+            openForwards: openForwards.rows[0].n,
+          },
+        };
+      }
+
       return { status: 404, body: { error: "Not found." } };
     },
   };

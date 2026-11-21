@@ -5,12 +5,15 @@
 'forge build --build-info --skip ./test/** ./script/** --force' running (wd: /Users/mac/Documents/Workspace/Work/Wealth/November/21/Cold Harbor/contracts)
 INFO:Detectors:
 Detector: arbitrary-send-erc20
-ColdHarborSettlement._settle(ColdHarborSettlement.Quote,bool) (src/ColdHarborSettlement.sol#203-216) uses arbitrary from in transferFrom: IERC20(q.makerToken).safeTransferFrom(q.maker,q.taker,q.makerAmount) (src/ColdHarborSettlement.sol#209)
-ColdHarborSettlement._settle(ColdHarborSettlement.Quote,bool) (src/ColdHarborSettlement.sol#203-216) uses arbitrary from in transferFrom: IERC20(q.takerToken).safeTransferFrom(q.taker,feeRecipient,fee) (src/ColdHarborSettlement.sol#208)
-ColdHarborSettlement._settle(ColdHarborSettlement.Quote,bool) (src/ColdHarborSettlement.sol#203-216) uses arbitrary from in transferFrom: IERC20(q.takerToken).safeTransferFrom(q.taker,q.maker,q.takerAmount) (src/ColdHarborSettlement.sol#207)
-ColdHarborSettlement._settle(ColdHarborSettlement.Quote,bool) (src/ColdHarborSettlement.sol#203-216) uses arbitrary from in transferFrom: IERC20(q.makerToken).safeTransferFrom(q.maker,feeRecipient,fee) (src/ColdHarborSettlement.sol#214)
-ColdHarborSettlement._settle(ColdHarborSettlement.Quote,bool) (src/ColdHarborSettlement.sol#203-216) uses arbitrary from in transferFrom: IERC20(q.makerToken).safeTransferFrom(q.maker,q.taker,q.makerAmount - fee) (src/ColdHarborSettlement.sol#213)
-ColdHarborSettlement._settle(ColdHarborSettlement.Quote,bool) (src/ColdHarborSettlement.sol#203-216) uses arbitrary from in transferFrom: IERC20(q.takerToken).safeTransferFrom(q.taker,q.maker,q.takerAmount) (src/ColdHarborSettlement.sol#212)
+ColdHarborSettlement.fillQuoteWithPermit2(ColdHarborSettlement.Quote,bytes,ISignatureTransfer.PermitTransferFrom,bytes) (src/ColdHarborSettlement.sol#147-177) uses arbitrary from in transferFrom: IERC20(q.makerToken).safeTransferFrom(q.maker,q.taker,q.makerAmount) (src/ColdHarborSettlement.sol#169)
+ColdHarborSettlement.fillQuoteWithPermit2(ColdHarborSettlement.Quote,bytes,ISignatureTransfer.PermitTransferFrom,bytes) (src/ColdHarborSettlement.sol#147-177) uses arbitrary from in transferFrom: IERC20(q.makerToken).safeTransferFrom(q.maker,feeRecipient,fee) (src/ColdHarborSettlement.sol#173)
+ColdHarborSettlement.fillQuoteWithPermit2(ColdHarborSettlement.Quote,bytes,ISignatureTransfer.PermitTransferFrom,bytes) (src/ColdHarborSettlement.sol#147-177) uses arbitrary from in transferFrom: IERC20(q.makerToken).safeTransferFrom(q.maker,q.taker,q.makerAmount - fee) (src/ColdHarborSettlement.sol#172)
+ColdHarborSettlement._settle(ColdHarborSettlement.Quote,bool) (src/ColdHarborSettlement.sol#270-283) uses arbitrary from in transferFrom: IERC20(q.takerToken).safeTransferFrom(q.taker,q.maker,q.takerAmount) (src/ColdHarborSettlement.sol#279)
+ColdHarborSettlement._settle(ColdHarborSettlement.Quote,bool) (src/ColdHarborSettlement.sol#270-283) uses arbitrary from in transferFrom: IERC20(q.makerToken).safeTransferFrom(q.maker,q.taker,q.makerAmount) (src/ColdHarborSettlement.sol#276)
+ColdHarborSettlement._settle(ColdHarborSettlement.Quote,bool) (src/ColdHarborSettlement.sol#270-283) uses arbitrary from in transferFrom: IERC20(q.makerToken).safeTransferFrom(q.maker,feeRecipient,fee) (src/ColdHarborSettlement.sol#281)
+ColdHarborSettlement._settle(ColdHarborSettlement.Quote,bool) (src/ColdHarborSettlement.sol#270-283) uses arbitrary from in transferFrom: IERC20(q.takerToken).safeTransferFrom(q.taker,feeRecipient,fee) (src/ColdHarborSettlement.sol#275)
+ColdHarborSettlement._settle(ColdHarborSettlement.Quote,bool) (src/ColdHarborSettlement.sol#270-283) uses arbitrary from in transferFrom: IERC20(q.makerToken).safeTransferFrom(q.maker,q.taker,q.makerAmount - fee) (src/ColdHarborSettlement.sol#280)
+ColdHarborSettlement._settle(ColdHarborSettlement.Quote,bool) (src/ColdHarborSettlement.sol#270-283) uses arbitrary from in transferFrom: IERC20(q.takerToken).safeTransferFrom(q.taker,q.maker,q.takerAmount) (src/ColdHarborSettlement.sol#274)
 Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#arbitrary-from-in-transferfrom
 INFO:Detectors:
 Detector: divide-before-multiply
@@ -38,13 +41,13 @@ MarketCalendar._civil(uint256) (src/MarketCalendar.sol#126-137) performs a multi
 Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#divide-before-multiply
 INFO:Detectors:
 Detector: uninitialized-local
+OracleAdapter._priceAtClose(address,uint64).roundId (src/OracleAdapter.sol#164) is a local variable never initialized
 OracleAdapter.observe(address,uint64).usedBackup (src/OracleAdapter.sol#142) is a local variable never initialized
 ForwardEngine._closeAt(uint256,ForwardEngine.Position,uint256,ForwardEngine.Status,address).penalty (src/ForwardEngine.sol#479) is a local variable never initialized
-OracleAdapter._priceAtClose(address,uint64).roundId (src/OracleAdapter.sol#164) is a local variable never initialized
 Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#uninitialized-local-variables
 INFO:Detectors:
 Detector: unused-return
-ColdHarborSettlement._verifyMakerSig(ColdHarborSettlement.Quote,bytes) (src/ColdHarborSettlement.sol#228-236) ignores return value by (recovered,err,None) = ECDSA.tryRecover(digest,sig) (src/ColdHarborSettlement.sol#230)
+ColdHarborSettlement._verifyMakerSig(ColdHarborSettlement.Quote,bytes) (src/ColdHarborSettlement.sol#295-303) ignores return value by (recovered,err,None) = ECDSA.tryRecover(digest,sig) (src/ColdHarborSettlement.sol#297)
 ForwardEngine._markPrice(ForwardEngine.Position) (src/ForwardEngine.sol#452-454) ignores return value by (price,None) = ORACLE.referencePrice(p.feed) (src/ForwardEngine.sol#453)
 ForwardEngine._verifyMakerSig(bytes32,address,bytes) (src/ForwardEngine.sol#546-553) ignores return value by (recovered,err,None) = ECDSA.tryRecover(digest,sig) (src/ForwardEngine.sol#547)
 OracleAdapter._priceAtClose(address,uint64) (src/OracleAdapter.sol#163-185) ignores return value by (r) = IAggregatorV3(feed).latestRoundData() (src/OracleAdapter.sol#165-169)
@@ -87,9 +90,9 @@ Reentrancy in ForwardEngine._open(ForwardEngine.ForwardQuote,address) (src/Forwa
 Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-2
 INFO:Detectors:
 Detector: timestamp
-ColdHarborSettlement._validate(ColdHarborSettlement.Quote) (src/ColdHarborSettlement.sol#190-201) uses timestamp for comparisons
+ColdHarborSettlement._validate(ColdHarborSettlement.Quote) (src/ColdHarborSettlement.sol#257-268) uses timestamp for comparisons
 	Dangerous comparisons:
-	- block.timestamp > q.expiry (src/ColdHarborSettlement.sol#192)
+	- block.timestamp > q.expiry (src/ColdHarborSettlement.sol#259)
 ForwardEngine._validateQuote(ForwardEngine.ForwardQuote) (src/ForwardEngine.sol#250-266) uses timestamp for comparisons
 	Dangerous comparisons:
 	- block.timestamp > q.expiry (src/ForwardEngine.sol#252)
@@ -138,7 +141,8 @@ OracleAdapter (src/OracleAdapter.sol#20-222) should inherit from IOracleAdapter 
 Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-inheritance
 INFO:Detectors:
 Detector: naming-convention
-Variable ColdHarborSettlement.USDG (src/ColdHarborSettlement.sol#48) is not in mixedCase
+Variable ColdHarborSettlement.USDG (src/ColdHarborSettlement.sol#75) is not in mixedCase
+Variable ColdHarborSettlement.PERMIT2 (src/ColdHarborSettlement.sol#78) is not in mixedCase
 Variable ForwardEngine.VAULT (src/ForwardEngine.sol#98) is not in mixedCase
 Variable ForwardEngine.ORACLE (src/ForwardEngine.sol#99) is not in mixedCase
 Variable ForwardEngine.CALENDAR (src/ForwardEngine.sol#100) is not in mixedCase
@@ -150,4 +154,4 @@ Detector: unindexed-event-address
 Event Pausable.Paused(address) (lib/openzeppelin-contracts/contracts/utils/Pausable.sol#23) has address parameters but no indexed parameters
 Event Pausable.Unpaused(address) (lib/openzeppelin-contracts/contracts/utils/Pausable.sol#28) has address parameters but no indexed parameters
 Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unindexed-event-address-parameters
-INFO:Slither:. analyzed (41 contracts with 100 detectors), 49 result(s) found
+INFO:Slither:. analyzed (42 contracts with 100 detectors), 53 result(s) found

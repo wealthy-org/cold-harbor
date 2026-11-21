@@ -75,3 +75,4 @@ export const QUOTES_ENABLED = Boolean(RELAY_URL);
 export const rfqEndpoint = () => `${RELAY_URL}/rfq`;
 export const rfqBody = <T extends object>(product: "spot" | "forward", body: T) => JSON.stringify({ product, ...body });
 export const closeProposalEndpoint = (forwardId: bigint | string) => `${RELAY_URL}/forwards/${forwardId}/close-proposal`;
+export const fillsEndpoint = (wallet: string) => `${RELAY_URL}/fills/${wallet}`;

@@ -125,7 +125,39 @@ export default function PortfolioClient() {
             <section className={`${PANEL} col-span-7`}>
               <div className="flex items-center justify-between border-b border-ink-700 px-6 py-4">
                 <p className="mono-label !text-mist-100">Fills</p>
-                <p className="mono-label">{fills.length} · fees paid ${fmtUsd(fees)} · this browser</p>
+                <div className="flex items-center gap-4">
+                  <p className="mono-label">{fills.length} · fees paid ${fmtUsd(fees)} · this browser</p>
+                  {fills.length > 0 && (
+                    <button
+                      onClick={() => {
+                        const header = "time,ticker,side,price_usd,usdg_amount,fee_usdg,tx_hash\n";
+                        const rows = fills
+                          .map((f) =>
+                            [
+                              new Date(f.t).toISOString(),
+                              f.ticker,
+                              f.side,
+                              f.price,
+                              (Number(f.usdg) / 1e6).toFixed(6),
+                              (Number(f.fee) / 1e6).toFixed(6),
+                              f.hash,
+                            ].join(",")
+                          )
+                          .join("\n");
+                        const blob = new Blob([header + rows], { type: "text/csv;charset=utf-8" });
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement("a");
+                        a.href = url;
+                        a.download = `cold-harbor-fills-${account?.slice(0, 8)}.csv`;
+                        a.click();
+                        URL.revokeObjectURL(url);
+                      }}
+                      className="rounded-full border border-ink-700 px-4 py-1.5 text-xs font-medium text-slate-300 hover:border-signal-500 hover:text-mist-100"
+                    >
+                      Export CSV
+                    </button>
+                  )}
+                </div>
               </div>
               <div className="mono-label grid grid-cols-12 gap-3 border-b border-ink-700 px-6 py-3">
                 <span className="col-span-3">Time</span><span className="col-span-2">Market</span><span className="col-span-1">Side</span>

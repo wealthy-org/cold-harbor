@@ -12,7 +12,8 @@
     "mm:create": "tsx scripts/mm-create.ts",
     "sim:setup": "tsx scripts/sim-setup.ts",
     "sim:maker": "tsx scripts/sim-maker.ts",
-    "sync:universe": "tsx scripts/sync-universe.ts"
+    "sync:universe": "tsx scripts/sync-universe.ts",
+    "keeper": "tsx scripts/keeper.ts"
   },
   "engines": {
     "node": ">=20"

@@ -14,6 +14,10 @@ import {FaucetToken} from "../src/mocks/FaucetToken.sol";
 /// The json file is written only when really broadcasting, so a dry run never leaves a fake deployment file.
 /// Run: forge script script/DeployTestnet.s.sol --rpc-url <url> --account <keystore> --sender $DEPLOYER --broadcast --slow
 contract DeployTestnet is Script {
+    /// @dev Uniswap's canonical Permit2 deployment: the same address on every EVM chain, including
+    ///      Robinhood Chain testnet and mainnet (confirmed via `cast code` before wiring this in).
+    address internal constant PERMIT2 = 0x000000000022D473030F116dDEE9F6B43aC78BA3;
+
     string[36] internal T = [
         "AAPL","AMD","AMZN","ASML","BABA","CLSK","COIN","CRCL","CRWV","DELL","EWY","GME",
         "GOOGL","INTC","IONQ","META","MSFT","MSTR","MU","NBIS","NVDA","ORCL","PLTR","QQQ",
@@ -28,7 +32,7 @@ contract DeployTestnet is Script {
 
         vm.startBroadcast(deployer);
         FaucetToken usdg = new FaucetToken("Cold Harbor Test USDG", "USDG", 6);
-        ColdHarborSettlement ch = new ColdHarborSettlement(address(usdg), deployer, feeBps, deployer);
+        ColdHarborSettlement ch = new ColdHarborSettlement(address(usdg), deployer, feeBps, deployer, PERMIT2);
 
         string memory tokens = "{";
         for (uint256 i = 0; i < T.length; i++) {
