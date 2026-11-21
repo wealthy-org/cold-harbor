@@ -32,16 +32,31 @@ contract OracleAdapter is Ownable2Step {
     uint16 public maxDeviationBps = 100; // primary vs backup tolerance at the close
     address public sequencerFeed; // Chainlink L2 sequencer uptime feed, optional
     uint64 public sequencerGrace = 1 hours;
+    uint64 public deferralWindow = 1 days; // how long observe() must keep failing before governance may propose a forced price
+    uint64 public forceObserveTimelock = 2 days; // delay between proposing and executing a forced price
+
+    struct ForcedProposal {
+        uint256 price;
+        uint64 proposedAt;
+    }
 
     mapping(address feed => address backup) public backupOf;
     mapping(address feed => mapping(uint64 closeTs => Obs)) private _pinned;
+    mapping(address feed => mapping(uint64 closeTs => ForcedProposal)) private _forced;
 
     event ObservationPinned(address indexed feed, uint64 indexed closeTs, uint256 price, bool usedBackup);
     event BackupFeedSet(address indexed feed, address backup);
     event ParamsSet();
+    event ForceObserveProposed(address indexed feed, uint64 indexed closeTs, uint256 price, uint64 executableAt);
+    event ForceObserveCancelled(address indexed feed, uint64 indexed closeTs);
+    event ForceObserveExecuted(address indexed feed, uint64 indexed closeTs, uint256 price);
 
     error TooEarly();
     error BadParam();
+    error AlreadyResolved();
+    error TooSoonToPropose();
+    error NoProposal();
+    error TimelockNotElapsed();
 
     constructor(address owner_) Ownable(owner_) {}
 
@@ -71,6 +86,41 @@ contract OracleAdapter is Ownable2Step {
         sequencerFeed = sequencerFeed_;
         sequencerGrace = sequencerGrace_;
         emit ParamsSet();
+    }
+
+    function setDeferralParams(uint64 deferralWindow_, uint64 forceObserveTimelock_) external onlyOwner {
+        deferralWindow = deferralWindow_;
+        forceObserveTimelock = forceObserveTimelock_;
+        emit ParamsSet();
+    }
+
+    /// @notice Governance last resort when `observe` has failed for `deferralWindow` with no valid price
+    ///         (brief 7.4). Starts a timelock; the price cannot take effect until `executeForceObserve`.
+    function proposeForceObserve(address feed, uint64 closeTs, uint256 price) external onlyOwner {
+        if (price == 0) revert BadParam();
+        if (_pinned[feed][closeTs].resolved) revert AlreadyResolved();
+        if (block.timestamp < uint256(closeTs) + closeGrace + deferralWindow) revert TooSoonToPropose();
+        _forced[feed][closeTs] = ForcedProposal(price, uint64(block.timestamp));
+        emit ForceObserveProposed(feed, closeTs, price, uint64(block.timestamp) + forceObserveTimelock);
+    }
+
+    function cancelForceObserve(address feed, uint64 closeTs) external onlyOwner {
+        delete _forced[feed][closeTs];
+        emit ForceObserveCancelled(feed, closeTs);
+    }
+
+    /// @notice Pins the proposed price once the timelock has elapsed. A real `observe()` resolving first wins.
+    function executeForceObserve(address feed, uint64 closeTs) external onlyOwner {
+        Obs storage o = _pinned[feed][closeTs];
+        if (o.resolved) revert AlreadyResolved();
+        ForcedProposal storage fp = _forced[feed][closeTs];
+        if (fp.proposedAt == 0) revert NoProposal();
+        if (block.timestamp < uint256(fp.proposedAt) + forceObserveTimelock) revert TimelockNotElapsed();
+        o.price = fp.price;
+        o.resolved = true;
+        delete _forced[feed][closeTs];
+        emit ForceObserveExecuted(feed, closeTs, fp.price);
+        emit ObservationPinned(feed, closeTs, fp.price, false);
     }
 
     // ------------------------------------------------------------ settlement price

@@ -251,4 +251,67 @@ contract OracleAdapterTest is Test {
         assertTrue(ok);
         assertEq(p, expected);
     }
+
+    // ------------------------------------------------------------ force observe (brief 7.4 governance last resort)
+
+    function test_forceObserve_onlyAfterDeferralWindow() public {
+        _afterGrace(); // closeTs + 301, still inside the default 1-day deferralWindow
+        vm.prank(owner);
+        vm.expectRevert(OracleAdapter.TooSoonToPropose.selector);
+        oracle.proposeForceObserve(address(feed), closeTs, 123e8);
+
+        vm.warp(uint256(closeTs) + 300 + 1 days + 1);
+        vm.prank(owner);
+        oracle.proposeForceObserve(address(feed), closeTs, 123e8);
+    }
+
+    function test_forceObserve_needsTimelockBeforeExecute() public {
+        vm.warp(uint256(closeTs) + 300 + 1 days + 1);
+        vm.startPrank(owner);
+        oracle.proposeForceObserve(address(feed), closeTs, 123e8);
+        vm.expectRevert(OracleAdapter.TimelockNotElapsed.selector);
+        oracle.executeForceObserve(address(feed), closeTs);
+
+        vm.warp(block.timestamp + 2 days + 1);
+        oracle.executeForceObserve(address(feed), closeTs);
+        vm.stopPrank();
+
+        (uint256 price, bool resolved) = oracle.pinned(address(feed), closeTs);
+        assertTrue(resolved);
+        assertEq(price, 123e8);
+    }
+
+    function test_forceObserve_realObservationWinsOverPendingProposal() public {
+        vm.warp(uint256(closeTs) + 300 + 1 days + 1);
+        vm.prank(owner);
+        oracle.proposeForceObserve(address(feed), closeTs, 999e8);
+
+        feed.push(100e8, closeTs - 60);
+        oracle.observe(address(feed), closeTs); // resolves for real before the timelock elapses
+
+        vm.warp(block.timestamp + 2 days + 1);
+        vm.prank(owner);
+        vm.expectRevert(OracleAdapter.AlreadyResolved.selector);
+        oracle.executeForceObserve(address(feed), closeTs);
+
+        (uint256 price,) = oracle.pinned(address(feed), closeTs);
+        assertEq(price, 100e8, "the real observation, not the forced one, is what got pinned");
+    }
+
+    function test_forceObserve_cancelRemovesProposal() public {
+        vm.warp(uint256(closeTs) + 300 + 1 days + 1);
+        vm.startPrank(owner);
+        oracle.proposeForceObserve(address(feed), closeTs, 123e8);
+        oracle.cancelForceObserve(address(feed), closeTs);
+        vm.warp(block.timestamp + 2 days + 1);
+        vm.expectRevert(OracleAdapter.NoProposal.selector);
+        oracle.executeForceObserve(address(feed), closeTs);
+        vm.stopPrank();
+    }
+
+    function test_forceObserve_onlyOwner() public {
+        vm.warp(uint256(closeTs) + 300 + 1 days + 1);
+        vm.expectRevert(abi.encodeWithSignature("OwnableUnauthorizedAccount(address)", address(this)));
+        oracle.proposeForceObserve(address(feed), closeTs, 123e8);
+    }
 }

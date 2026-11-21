@@ -17,6 +17,7 @@ interface IOracleAdapter {
 
 interface IMarketCalendar {
     function isOfficialClose(uint64 ts) external view returns (bool);
+    function nextClose(uint64 ts) external view returns (uint64);
 }
 
 interface IStockToken {
@@ -107,6 +108,7 @@ contract ForwardEngine is EIP712, Ownable2Step, Pausable, ReentrancyGuard {
     uint64 public maxTenor = 92 days;
     uint256 public minNotional = 10_000e6;
     uint256 public maxNotional = 1_000_000e6;
+    uint64 public constant MAX_ROLL_DAYS = 8 days; // brief 7.5: following-business-day shift cap
 
     uint256 public nextId = 1;
     mapping(uint256 id => Position) private _pos;
@@ -134,6 +136,7 @@ contract ForwardEngine is EIP712, Ownable2Step, Pausable, ReentrancyGuard {
     event ForwardSettled(uint256 indexed id, uint256 closePrice, int256 pnlTaker);
     event ForwardClosed(uint256 indexed id, uint256 price, int256 pnlTaker);
     event ObservationDeferred(uint256 indexed id, uint64 closeTs);
+    event MaturityRolled(uint256 indexed id, uint64 oldCloseTs, uint64 newCloseTs);
     event UnderlyingSet(address indexed token, address feed, bool active, uint16 minImBps);
     event SignerRegistered(address indexed maker, address signer, bool allowed);
     event NonceCancelled(address indexed maker, uint64 bucket, uint128 nonce);
@@ -159,6 +162,8 @@ contract ForwardEngine is EIP712, Ownable2Step, Pausable, ReentrancyGuard {
     error OraclePausedByToken();
     error ZeroAddress();
     error BadParam();
+    error StillOfficialClose();
+    error RollTooFar();
 
     constructor(address vault_, address oracle_, address calendar_, address feeRecipient_, address owner_)
         EIP712("Cold Harbor Forwards", "1")
@@ -347,6 +352,19 @@ contract ForwardEngine is EIP712, Ownable2Step, Pausable, ReentrancyGuard {
             return;
         }
         _closeAt(id, p, price, Status.Settled, address(0));
+    }
+
+    /// @notice If a holiday was declared on `maturityCloseTs` after this position opened, shift it to the next
+    ///         official close so `settle` is not stuck forever observing a day the market never traded.
+    ///         Brief 7.5: capped at 8 calendar days, mirroring Note Systems' following-business-day rule.
+    function rollMaturity(uint256 id) external nonReentrant {
+        Position storage p = _openPos(id);
+        if (CALENDAR.isOfficialClose(p.maturityCloseTs)) revert StillOfficialClose();
+        uint64 oldTs = p.maturityCloseTs;
+        uint64 newTs = CALENDAR.nextClose(oldTs);
+        if (newTs > oldTs + MAX_ROLL_DAYS) revert RollTooFar();
+        p.maturityCloseTs = newTs;
+        emit MaturityRolled(id, oldTs, newTs);
     }
 
     /// @notice Early unwind by agreement at `price`. Needs both parties' signatures. Anyone may submit.

@@ -5,18 +5,18 @@
 'forge build --build-info --skip ./test/** ./script/** --force' running (wd: /Users/mac/Documents/Workspace/Work/Wealth/November/21/Cold Harbor/contracts)
 INFO:Detectors:
 Detector: arbitrary-send-erc20
+ColdHarborSettlement._settle(ColdHarborSettlement.Quote,bool) (src/ColdHarborSettlement.sol#203-216) uses arbitrary from in transferFrom: IERC20(q.makerToken).safeTransferFrom(q.maker,q.taker,q.makerAmount) (src/ColdHarborSettlement.sol#209)
+ColdHarborSettlement._settle(ColdHarborSettlement.Quote,bool) (src/ColdHarborSettlement.sol#203-216) uses arbitrary from in transferFrom: IERC20(q.takerToken).safeTransferFrom(q.taker,feeRecipient,fee) (src/ColdHarborSettlement.sol#208)
 ColdHarborSettlement._settle(ColdHarborSettlement.Quote,bool) (src/ColdHarborSettlement.sol#203-216) uses arbitrary from in transferFrom: IERC20(q.takerToken).safeTransferFrom(q.taker,q.maker,q.takerAmount) (src/ColdHarborSettlement.sol#207)
 ColdHarborSettlement._settle(ColdHarborSettlement.Quote,bool) (src/ColdHarborSettlement.sol#203-216) uses arbitrary from in transferFrom: IERC20(q.makerToken).safeTransferFrom(q.maker,feeRecipient,fee) (src/ColdHarborSettlement.sol#214)
-ColdHarborSettlement._settle(ColdHarborSettlement.Quote,bool) (src/ColdHarborSettlement.sol#203-216) uses arbitrary from in transferFrom: IERC20(q.takerToken).safeTransferFrom(q.taker,q.maker,q.takerAmount) (src/ColdHarborSettlement.sol#212)
-ColdHarborSettlement._settle(ColdHarborSettlement.Quote,bool) (src/ColdHarborSettlement.sol#203-216) uses arbitrary from in transferFrom: IERC20(q.makerToken).safeTransferFrom(q.maker,q.taker,q.makerAmount) (src/ColdHarborSettlement.sol#209)
 ColdHarborSettlement._settle(ColdHarborSettlement.Quote,bool) (src/ColdHarborSettlement.sol#203-216) uses arbitrary from in transferFrom: IERC20(q.makerToken).safeTransferFrom(q.maker,q.taker,q.makerAmount - fee) (src/ColdHarborSettlement.sol#213)
-ColdHarborSettlement._settle(ColdHarborSettlement.Quote,bool) (src/ColdHarborSettlement.sol#203-216) uses arbitrary from in transferFrom: IERC20(q.takerToken).safeTransferFrom(q.taker,feeRecipient,fee) (src/ColdHarborSettlement.sol#208)
+ColdHarborSettlement._settle(ColdHarborSettlement.Quote,bool) (src/ColdHarborSettlement.sol#203-216) uses arbitrary from in transferFrom: IERC20(q.takerToken).safeTransferFrom(q.taker,q.maker,q.takerAmount) (src/ColdHarborSettlement.sol#212)
 Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#arbitrary-from-in-transferfrom
 INFO:Detectors:
 Detector: divide-before-multiply
-ForwardEngine._applyPenalty(ForwardEngine.Position,address,address,uint256) (src/ForwardEngine.sol#499-509) performs a multiplication on the result of a division:
-	- penalty = (_notional(p.qty,p.strike) * liquidationPenaltyBps) / BPS (src/ForwardEngine.sol#503)
-	- protocolCut = (penalty * penaltyProtocolShareBps) / BPS (src/ForwardEngine.sol#505)
+ForwardEngine._applyPenalty(ForwardEngine.Position,address,address,uint256) (src/ForwardEngine.sol#517-527) performs a multiplication on the result of a division:
+	- penalty = (_notional(p.qty,p.strike) * liquidationPenaltyBps) / BPS (src/ForwardEngine.sol#521)
+	- protocolCut = (penalty * penaltyProtocolShareBps) / BPS (src/ForwardEngine.sol#523)
 MarketCalendar._daysFromCivil(uint256,uint256,uint256) (src/MarketCalendar.sol#116-123) performs a multiplication on the result of a division:
 	- era = y / 400 (src/MarketCalendar.sol#118)
 	- yoe = y - era * 400 (src/MarketCalendar.sol#119)
@@ -38,78 +38,84 @@ MarketCalendar._civil(uint256) (src/MarketCalendar.sol#126-137) performs a multi
 Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#divide-before-multiply
 INFO:Detectors:
 Detector: uninitialized-local
-ForwardEngine._closeAt(uint256,ForwardEngine.Position,uint256,ForwardEngine.Status,address).penalty (src/ForwardEngine.sol#461) is a local variable never initialized
-OracleAdapter.observe(address,uint64).usedBackup (src/OracleAdapter.sol#92) is a local variable never initialized
-OracleAdapter._priceAtClose(address,uint64).roundId (src/OracleAdapter.sol#114) is a local variable never initialized
+OracleAdapter.observe(address,uint64).usedBackup (src/OracleAdapter.sol#142) is a local variable never initialized
+ForwardEngine._closeAt(uint256,ForwardEngine.Position,uint256,ForwardEngine.Status,address).penalty (src/ForwardEngine.sol#479) is a local variable never initialized
+OracleAdapter._priceAtClose(address,uint64).roundId (src/OracleAdapter.sol#164) is a local variable never initialized
 Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#uninitialized-local-variables
 INFO:Detectors:
 Detector: unused-return
 ColdHarborSettlement._verifyMakerSig(ColdHarborSettlement.Quote,bytes) (src/ColdHarborSettlement.sol#228-236) ignores return value by (recovered,err,None) = ECDSA.tryRecover(digest,sig) (src/ColdHarborSettlement.sol#230)
-ForwardEngine._markPrice(ForwardEngine.Position) (src/ForwardEngine.sol#434-436) ignores return value by (price,None) = ORACLE.referencePrice(p.feed) (src/ForwardEngine.sol#435)
-ForwardEngine._verifyMakerSig(bytes32,address,bytes) (src/ForwardEngine.sol#528-535) ignores return value by (recovered,err,None) = ECDSA.tryRecover(digest,sig) (src/ForwardEngine.sol#529)
-OracleAdapter._priceAtClose(address,uint64) (src/OracleAdapter.sol#113-135) ignores return value by (r) = IAggregatorV3(feed).latestRoundData() (src/OracleAdapter.sol#115-119)
-OracleAdapter._priceAtClose(address,uint64) (src/OracleAdapter.sol#113-135) ignores return value by (answer,updatedAt) = IAggregatorV3(feed).getRoundData(roundId) (src/OracleAdapter.sol#121-130)
-OracleAdapter._latest(address) (src/OracleAdapter.sol#153-161) ignores return value by (answer,updatedAt) = IAggregatorV3(feed).latestRoundData() (src/OracleAdapter.sol#154-160)
-OracleAdapter._sequencerOk() (src/OracleAdapter.sol#163-171) ignores return value by (answer,startedAt) = IAggregatorV3(s).latestRoundData() (src/OracleAdapter.sol#166-170)
+ForwardEngine._markPrice(ForwardEngine.Position) (src/ForwardEngine.sol#452-454) ignores return value by (price,None) = ORACLE.referencePrice(p.feed) (src/ForwardEngine.sol#453)
+ForwardEngine._verifyMakerSig(bytes32,address,bytes) (src/ForwardEngine.sol#546-553) ignores return value by (recovered,err,None) = ECDSA.tryRecover(digest,sig) (src/ForwardEngine.sol#547)
+OracleAdapter._priceAtClose(address,uint64) (src/OracleAdapter.sol#163-185) ignores return value by (r) = IAggregatorV3(feed).latestRoundData() (src/OracleAdapter.sol#165-169)
+OracleAdapter._priceAtClose(address,uint64) (src/OracleAdapter.sol#163-185) ignores return value by (answer,updatedAt) = IAggregatorV3(feed).getRoundData(roundId) (src/OracleAdapter.sol#171-180)
+OracleAdapter._latest(address) (src/OracleAdapter.sol#203-211) ignores return value by (answer,updatedAt) = IAggregatorV3(feed).latestRoundData() (src/OracleAdapter.sol#204-210)
+OracleAdapter._sequencerOk() (src/OracleAdapter.sol#213-221) ignores return value by (answer,startedAt) = IAggregatorV3(s).latestRoundData() (src/OracleAdapter.sol#216-220)
 Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-return
 INFO:Detectors:
 Detector: missing-zero-check
-OracleAdapter.setParams(uint64,uint64,uint64,uint16,uint16,address,uint64).sequencerFeed_ (src/OracleAdapter.sol#62) lacks a zero-check on :
-		- sequencerFeed = sequencerFeed_ (src/OracleAdapter.sol#71)
+OracleAdapter.setParams(uint64,uint64,uint64,uint16,uint16,address,uint64).sequencerFeed_ (src/OracleAdapter.sol#77) lacks a zero-check on :
+		- sequencerFeed = sequencerFeed_ (src/OracleAdapter.sol#86)
 Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-zero-address-validation
 INFO:Detectors:
 Detector: calls-loop
-OracleAdapter._priceAtClose(address,uint64) (src/OracleAdapter.sol#113-135) has external calls inside a loop: (answer,updatedAt) = IAggregatorV3(feed).getRoundData(roundId) (src/OracleAdapter.sol#121-130)
+OracleAdapter._priceAtClose(address,uint64) (src/OracleAdapter.sol#163-185) has external calls inside a loop: (answer,updatedAt) = IAggregatorV3(feed).getRoundData(roundId) (src/OracleAdapter.sol#171-180)
 	Calls stack containing the loop:
 		OracleAdapter.observe(address,uint64)
 Reference: https://github.com/crytic/slither/wiki/Detector-Documentation/#calls-inside-a-loop
 INFO:Detectors:
 Detector: reentrancy-benign
-Reentrancy in ForwardEngine._open(ForwardEngine.ForwardQuote,address) (src/ForwardEngine.sol#263-288):
+Reentrancy in ForwardEngine._open(ForwardEngine.ForwardQuote,address) (src/ForwardEngine.sol#268-293):
 	External calls:
-	- VAULT.lock(q.taker,im) (src/ForwardEngine.sol#268)
-	- VAULT.charge(q.taker,feeRecipient,fee) (src/ForwardEngine.sol#269)
-	- VAULT.lock(q.maker,im) (src/ForwardEngine.sol#270)
+	- VAULT.lock(q.taker,im) (src/ForwardEngine.sol#273)
+	- VAULT.charge(q.taker,feeRecipient,fee) (src/ForwardEngine.sol#274)
+	- VAULT.lock(q.maker,im) (src/ForwardEngine.sol#275)
 	State variables written after the call(s):
-	- p.maker = q.maker (src/ForwardEngine.sol#274)
-	- p.taker = q.taker (src/ForwardEngine.sol#275)
-	- p.stockToken = q.stockToken (src/ForwardEngine.sol#276)
-	- p.feed = feed (src/ForwardEngine.sol#277)
-	- p.side = q.side (src/ForwardEngine.sol#278)
-	- p.qty = q.qty (src/ForwardEngine.sol#279)
-	- p.strike = q.strike (src/ForwardEngine.sol#280)
-	- p.maturityCloseTs = q.maturityCloseTs (src/ForwardEngine.sol#281)
-	- p.makerMargin = im (src/ForwardEngine.sol#282)
-	- p.takerMargin = im (src/ForwardEngine.sol#283)
-	- p.mmBps = q.mmBps (src/ForwardEngine.sol#284)
-	- p.status = Status.Open (src/ForwardEngine.sol#285)
-	- id = nextId ++ (src/ForwardEngine.sol#272)
+	- p.maker = q.maker (src/ForwardEngine.sol#279)
+	- p.taker = q.taker (src/ForwardEngine.sol#280)
+	- p.stockToken = q.stockToken (src/ForwardEngine.sol#281)
+	- p.feed = feed (src/ForwardEngine.sol#282)
+	- p.side = q.side (src/ForwardEngine.sol#283)
+	- p.qty = q.qty (src/ForwardEngine.sol#284)
+	- p.strike = q.strike (src/ForwardEngine.sol#285)
+	- p.maturityCloseTs = q.maturityCloseTs (src/ForwardEngine.sol#286)
+	- p.makerMargin = im (src/ForwardEngine.sol#287)
+	- p.takerMargin = im (src/ForwardEngine.sol#288)
+	- p.mmBps = q.mmBps (src/ForwardEngine.sol#289)
+	- p.status = Status.Open (src/ForwardEngine.sol#290)
+	- id = nextId ++ (src/ForwardEngine.sol#277)
 Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-2
 INFO:Detectors:
 Detector: timestamp
 ColdHarborSettlement._validate(ColdHarborSettlement.Quote) (src/ColdHarborSettlement.sol#190-201) uses timestamp for comparisons
 	Dangerous comparisons:
 	- block.timestamp > q.expiry (src/ColdHarborSettlement.sol#192)
-ForwardEngine._validateQuote(ForwardEngine.ForwardQuote) (src/ForwardEngine.sol#245-261) uses timestamp for comparisons
+ForwardEngine._validateQuote(ForwardEngine.ForwardQuote) (src/ForwardEngine.sol#250-266) uses timestamp for comparisons
 	Dangerous comparisons:
-	- block.timestamp > q.expiry (src/ForwardEngine.sol#247)
-	- q.maturityCloseTs < block.timestamp + minTenor || q.maturityCloseTs > block.timestamp + maxTenor (src/ForwardEngine.sol#255)
-ForwardEngine.liquidate(uint256) (src/ForwardEngine.sol#323-333) uses timestamp for comparisons
+	- block.timestamp > q.expiry (src/ForwardEngine.sol#252)
+	- q.maturityCloseTs < block.timestamp + minTenor || q.maturityCloseTs > block.timestamp + maxTenor (src/ForwardEngine.sol#260)
+ForwardEngine.liquidate(uint256) (src/ForwardEngine.sol#328-338) uses timestamp for comparisons
 	Dangerous comparisons:
-	- block.timestamp <= p.callDeadline (src/ForwardEngine.sol#326)
-OracleAdapter.observe(address,uint64) (src/OracleAdapter.sol#83-110) uses timestamp for comparisons
+	- block.timestamp <= p.callDeadline (src/ForwardEngine.sol#331)
+OracleAdapter.proposeForceObserve(address,uint64,uint256) (src/OracleAdapter.sol#99-105) uses timestamp for comparisons
 	Dangerous comparisons:
-	- block.timestamp < uint256(closeTs) + closeGrace (src/OracleAdapter.sol#84)
-OracleAdapter.referencePrice(address) (src/OracleAdapter.sol#141-151) uses timestamp for comparisons
+	- block.timestamp < uint256(closeTs) + closeGrace + deferralWindow (src/OracleAdapter.sol#102)
+OracleAdapter.executeForceObserve(address,uint64) (src/OracleAdapter.sol#113-124) uses timestamp for comparisons
 	Dangerous comparisons:
-	- good && age <= liveMaxAge (src/OracleAdapter.sol#144)
-	- bGood && bAge <= liveMaxAge (src/OracleAdapter.sol#148)
-OracleAdapter._latest(address) (src/OracleAdapter.sol#153-161) uses timestamp for comparisons
+	- block.timestamp < uint256(fp.proposedAt) + forceObserveTimelock (src/OracleAdapter.sol#118)
+OracleAdapter.observe(address,uint64) (src/OracleAdapter.sol#133-160) uses timestamp for comparisons
 	Dangerous comparisons:
-	- answer <= 0 || updatedAt == 0 || updatedAt > block.timestamp (src/OracleAdapter.sol#155)
-OracleAdapter._sequencerOk() (src/OracleAdapter.sol#163-171) uses timestamp for comparisons
+	- block.timestamp < uint256(closeTs) + closeGrace (src/OracleAdapter.sol#134)
+OracleAdapter.referencePrice(address) (src/OracleAdapter.sol#191-201) uses timestamp for comparisons
 	Dangerous comparisons:
-	- answer == 0 && block.timestamp >= startedAt + sequencerGrace (src/OracleAdapter.sol#167)
+	- good && age <= liveMaxAge (src/OracleAdapter.sol#194)
+	- bGood && bAge <= liveMaxAge (src/OracleAdapter.sol#198)
+OracleAdapter._latest(address) (src/OracleAdapter.sol#203-211) uses timestamp for comparisons
+	Dangerous comparisons:
+	- answer <= 0 || updatedAt == 0 || updatedAt > block.timestamp (src/OracleAdapter.sol#205)
+OracleAdapter._sequencerOk() (src/OracleAdapter.sol#213-221) uses timestamp for comparisons
+	Dangerous comparisons:
+	- answer == 0 && block.timestamp >= startedAt + sequencerGrace (src/OracleAdapter.sol#217)
 TestnetFeed._push(uint256,uint256) (src/mocks/TestnetFeed.sol#39-54) uses timestamp for comparisons
 	Dangerous comparisons:
 	- n != 0 (src/mocks/TestnetFeed.sol#42)
@@ -127,15 +133,15 @@ Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#block-t
 INFO:Detectors:
 Detector: missing-inheritance
 MarginVault (src/MarginVault.sol#21-113) should inherit from IMarginVault (src/MarginVault.sol#9-15)
-MarketCalendar (src/MarketCalendar.sol#14-138) should inherit from IMarketCalendar (src/ForwardEngine.sol#18-20)
-OracleAdapter (src/OracleAdapter.sol#20-172) should inherit from IOracleAdapter (src/ForwardEngine.sol#13-16)
+MarketCalendar (src/MarketCalendar.sol#14-138) should inherit from IMarketCalendar (src/ForwardEngine.sol#18-21)
+OracleAdapter (src/OracleAdapter.sol#20-222) should inherit from IOracleAdapter (src/ForwardEngine.sol#13-16)
 Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-inheritance
 INFO:Detectors:
 Detector: naming-convention
 Variable ColdHarborSettlement.USDG (src/ColdHarborSettlement.sol#48) is not in mixedCase
-Variable ForwardEngine.VAULT (src/ForwardEngine.sol#97) is not in mixedCase
-Variable ForwardEngine.ORACLE (src/ForwardEngine.sol#98) is not in mixedCase
-Variable ForwardEngine.CALENDAR (src/ForwardEngine.sol#99) is not in mixedCase
+Variable ForwardEngine.VAULT (src/ForwardEngine.sol#98) is not in mixedCase
+Variable ForwardEngine.ORACLE (src/ForwardEngine.sol#99) is not in mixedCase
+Variable ForwardEngine.CALENDAR (src/ForwardEngine.sol#100) is not in mixedCase
 Variable MarginVault.USDG (src/MarginVault.sol#24) is not in mixedCase
 Variable TestnetFeed.MAX_MOVE_BPS (src/mocks/TestnetFeed.sol#16) is not in mixedCase
 Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions
@@ -144,4 +150,4 @@ Detector: unindexed-event-address
 Event Pausable.Paused(address) (lib/openzeppelin-contracts/contracts/utils/Pausable.sol#23) has address parameters but no indexed parameters
 Event Pausable.Unpaused(address) (lib/openzeppelin-contracts/contracts/utils/Pausable.sol#28) has address parameters but no indexed parameters
 Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unindexed-event-address-parameters
-INFO:Slither:. analyzed (41 contracts with 100 detectors), 47 result(s) found
+INFO:Slither:. analyzed (41 contracts with 100 detectors), 49 result(s) found

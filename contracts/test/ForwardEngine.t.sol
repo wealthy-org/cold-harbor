@@ -408,6 +408,38 @@ contract ForwardEngineTest is Test {
         engine.settle(id);
     }
 
+    function test_rollMaturity_shiftsToNextCloseWhenHolidayDeclaredLate() public {
+        uint256 id = _openDefault();
+        // A holiday gets declared on the maturity day after the position was already opened.
+        vm.prank(owner);
+        cal.setHoliday(uint256(MATURITY) / 86400, true);
+
+        vm.expectRevert(FE.NotOpen.selector); // settle still requires Open status; sanity check position exists
+        engine.settle(999);
+
+        uint64 oldTs = engine.getPosition(id).maturityCloseTs;
+        assertEq(oldTs, MATURITY);
+        uint64 expectedNext = cal.nextClose(oldTs);
+
+        vm.expectEmit(true, false, false, true);
+        emit FE.MaturityRolled(id, oldTs, expectedNext);
+        engine.rollMaturity(id);
+
+        assertEq(engine.getPosition(id).maturityCloseTs, expectedNext, "maturity shifted to the next official close");
+        assertTrue(expectedNext <= oldTs + engine.MAX_ROLL_DAYS(), "shift stays within the 8-day cap");
+    }
+
+    function test_rollMaturity_revertsWhenStillOfficialClose() public {
+        uint256 id = _openDefault();
+        vm.expectRevert(FE.StillOfficialClose.selector);
+        engine.rollMaturity(id);
+    }
+
+    function test_rollMaturity_onlyOpenPosition() public {
+        vm.expectRevert(FE.NotOpen.selector);
+        engine.rollMaturity(999);
+    }
+
     function test_settle_deferredThenResolved() public {
         uint256 id = _openDefault();
         vm.warp(uint256(MATURITY) + 301); // only a round from 11 days ago exists: too old
