@@ -42,7 +42,7 @@ function TopNav() {
 
 function Hero() {
   return (
-    <section id="top" className="relative overflow-hidden border-b border-ink-700">
+    <section id="top" className="relative overflow-hidden">
       <HeroField />
       <div className="hero-in relative mx-auto flex min-h-[calc(100svh-96px)] max-w-[1440px] flex-col justify-center px-4 py-16 lg:px-16">
         <p className="mono-label mb-8">On-chain OTC · Robinhood Chain · 24/7</p>
@@ -68,7 +68,7 @@ function Hero() {
 function TickerStrip() {
   const row = [...TICKERS, ...TICKERS];
   return (
-    <div className="ticker-wrap overflow-hidden border-b border-ink-700 bg-ink-900 py-5" aria-label="Launch universe">
+    <div className="ticker-wrap overflow-hidden border-b border-t border-ink-700/60 bg-ink-950 py-5" aria-label="Launch universe">
       <div className="ticker-track flex gap-10">
         {row.map((t, i) => (
           <span key={i} className="flex items-center gap-3 font-mono text-sm uppercase tracking-[0.08em] text-mist-100">
