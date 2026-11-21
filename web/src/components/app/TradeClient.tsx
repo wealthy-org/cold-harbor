@@ -274,8 +274,8 @@ export default function TradeClient() {
   const stepState = (i: 0 | 1 | 2): "todo" | "active" | "done" => {
     if (exec.phase === "done") return "done";
     if (i === 0) return exec.phase === "approving" ? "active" : needsApproval || allowance === null ? "todo" : "done";
-    if (i === 1) return exec.phase === "filling" || exec.phase === "confirming" ? "active" : "todo";
-    return "todo";
+    if (i === 1) return exec.phase === "filling" ? "active" : exec.phase === "confirming" ? "done" : "todo";
+    return exec.phase === "confirming" ? "active" : "todo";
   };
 
   return (
@@ -472,13 +472,34 @@ export default function TradeClient() {
                   )}
                 </dl>
                 <div>
-                  <ol className="mb-5 grid grid-cols-3 gap-3">
-                    {["Approve", "Execute", "Settled"].map((l, i) => {
+                  <ol className="mb-6 flex items-start">
+                    {[
+                      { l: "Approve", sub: needsApproval || allowance === null ? "Allow the token" : "Not needed" },
+                      { l: "Execute", sub: "Sign and send" },
+                      { l: "Settled", sub: "Confirmed on chain" },
+                    ].map((step, i, arr) => {
                       const st = stepState(i as 0 | 1 | 2);
+                      const skipped = i === 0 && st === "done" && !needsApproval && exec.phase !== "approving" && exec.phase !== "done";
+                      const circle =
+                        st === "done"
+                          ? "border-pos-500 bg-pos-500 text-ink-950"
+                          : st === "active"
+                            ? "border-signal-500 text-signal-500"
+                            : "border-ink-700 text-slate-500";
+                      const label = st === "done" ? "text-pos-500" : st === "active" ? "text-signal-500" : "text-slate-500";
                       return (
-                        <li key={l}>
-                          <span className={`block h-0.5 ${st === "done" ? "bg-pos-500" : st === "active" ? "bg-signal-500" : "bg-ink-700"}`} />
-                          <p className={`mono-label mt-2 ${st === "done" ? "!text-pos-500" : st === "active" ? "!text-signal-500" : ""}`}>{i + 1} {l}</p>
+                        <li key={step.l} className="relative flex flex-1 flex-col items-center text-center">
+                          {i < arr.length - 1 && (
+                            <span
+                              aria-hidden
+                              className={`absolute left-1/2 top-[15px] h-px w-full ${st === "done" ? "bg-pos-500" : "bg-ink-700"}`}
+                            />
+                          )}
+                          <span className={`relative z-10 flex h-8 w-8 items-center justify-center rounded-full border bg-ink-900 font-mono text-xs ${circle} ${st === "active" ? "animate-pulse" : ""}`}>
+                            {st === "done" ? "✓" : i + 1}
+                          </span>
+                          <p className={`mono-label mt-2 ${label}`}>{step.l}</p>
+                          <p className="mt-0.5 text-[11px] leading-tight text-slate-500">{skipped ? "Already allowed" : step.sub}</p>
                         </li>
                       );
                     })}
@@ -490,10 +511,10 @@ export default function TradeClient() {
                   >
                     {roomBtn.label}
                   </button>
-                  {exec.phase === "error" && <p className="mt-3 text-sm text-neg-500">{exec.message}</p>}
+                  {exec.phase === "error" && <p className="mt-4 rounded-md border border-neg-500/30 bg-neg-500/10 px-3 py-2 text-sm text-neg-500">{exec.message}</p>}
                   {exec.hash && (
-                    <p className="mt-3 font-mono text-xs text-slate-500">
-                      {EXPLORER ? <a className="underline hover:text-signal-500" href={`${EXPLORER}/tx/${exec.hash}`} target="_blank" rel="noreferrer">tx {shortAddr(exec.hash)}</a> : <>tx {shortAddr(exec.hash)}</>}
+                    <p className="mt-4 text-center font-mono text-xs text-slate-500">
+                      {EXPLORER ? <a className="underline hover:text-signal-500" href={`${EXPLORER}/tx/${exec.hash}`} target="_blank" rel="noreferrer">View transaction {shortAddr(exec.hash)}</a> : <>tx {shortAddr(exec.hash)}</>}
                     </p>
                   )}
                 </div>
