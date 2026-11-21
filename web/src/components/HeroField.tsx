@@ -103,10 +103,11 @@ export default function HeroField() {
         if (sx < -10 || sx > w + 10 || sy < -10 || sy > h + 10) continue;
 
         const depth = clamp(1 - (z - 1.2) / 14);
-        let a = 0.1 + depth * 0.75;
+        let a = 0.08 + depth * 0.45; // overall dimmer so the grid phase never glares
         if (sx < textZone && sy > h * 0.2 && sy < h * 0.75) a *= 0.45; // keep copy readable
+        else if (sy > h * 0.55) a *= 0.7; // tame the convergence glow on the non-copy side too
         const size = Math.max(0.7, (0.0055 * f) / z);
-        const edge = clamp(Math.min(sx, w - sx) / (w * 0.14)) * clamp((h - sy) / (h * 0.22));
+        const edge = clamp(Math.min(sx, w - sx) / (w * 0.14)) * clamp((h - sy) / (h * 0.4));
         a *= edge;
 
         ctx.globalAlpha = a;
