@@ -22,3 +22,6 @@ contracts/deployments/rehearsal-*.json
 
 # misc
 .DS_Store
+*.png
+!web/public/**/*.png
+!web/src/app/**/*.png
