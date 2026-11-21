@@ -160,7 +160,7 @@ export default function DocsPage() {
 
           <section>
             <H id="contracts" n="02">Contracts</H>
-            <P>Network: Robinhood Chain testnet, chain id {proofs.chainId}. Deployer and owner: <a className="font-mono text-sm text-signal-500" href={addr(proofs.deployer)} target="_blank" rel="noreferrer">{proofs.deployer}</a>. Explorer verification of the source is not done yet.</P>
+            <P>Network: Robinhood Chain testnet, chain id {proofs.chainId}. Deployer and owner: <a className="font-mono text-sm text-signal-500" href={addr(proofs.deployer)} target="_blank" rel="noreferrer">{proofs.deployer}</a>. Source is verified on the explorer for every contract below, including the 36 TestnetFeed price mocks.</P>
             <div className="mt-8 space-y-10">
               {CONTRACTS.map((c) => (
                 <article key={c.name} className="border border-ink-700 p-6">
@@ -315,8 +315,8 @@ pnpm dev -p 3005`}</pre>
           <section>
             <H id="status" n="08">Status and risks</H>
             <ul className="mt-6 max-w-3xl list-disc space-y-3 pl-6 text-[17px] leading-relaxed text-slate-300">
-              <li>No external audit. Internal tests: 135 passing, about 94% line coverage. No static analysis such as Slither yet.</li>
-              <li>Source is not verified on the explorer.</li>
+              <li>No external audit. Internal tests: 135 passing, about 94% line coverage. Slither static analysis run: no High or Medium findings; the Low/informational results (timestamp comparisons, naming convention, missing interface inheritance) are reviewed in <code className="text-signal-400">contracts/slither-report.txt</code>.</li>
+              <li>Source is verified on the explorer for all 5 live contracts plus the 36 TestnetFeed mocks.</li>
               <li>Tested with a read-only wallet shim and local keys. Not yet tested with MetaMask or Rabby, or with transaction buttons end to end.</li>
               <li>Testnet uses mock tokens, a test price feed and simulated makers. The real Robinhood stock tokens and their decimals are not confirmed.</li>
               <li>The indexer has no reorg handling. Add a confirmation depth before mainnet.</li>

@@ -6,7 +6,7 @@ import { useCallback, useEffect, useState } from "react";
 import { formatUnits, parseUnits } from "viem";
 import ConnectButton from "@/components/app/ConnectButton";
 import { useWallet } from "@/components/app/WalletProvider";
-import { RELAY_URL } from "@/lib/chain";
+import { RELAY_URL, CHAIN_ID } from "@/lib/chain";
 import HeroField from "@/components/HeroField";
 
 type Limit = { ticker: string; maxNotional: string; maxOpenForwards: number };
@@ -27,137 +27,55 @@ async function call<T>(method: string, path: string, token: string | null, body?
   return j;
 }
 
-/* ——— Interactive WebSocket Terminal Mock with Simulated Real-Time Messages ——— */
-const SAMPLE_STREAM = [
-  { time: "16:42:01.102", type: "rfq.request", side: "BUY", sym: "NVDA", sz: "5,000", notional: "$711,250", status: "BROADCAST" },
-  { time: "16:42:01.340", type: "quote.submit", side: "SELL", sym: "NVDA", sz: "5,000", price: "$142.25", status: "ACK" },
-  { time: "16:42:02.890", type: "quote.result", sym: "NVDA", outcome: "WON", tx: "0x4f82…d91a", status: "FILLED" },
-  { time: "16:42:15.010", type: "rfq.request", side: "SELL", sym: "TSLA", sz: "2,500", notional: "$587,500", status: "BROADCAST" },
-  { time: "16:42:15.220", type: "quote.submit", side: "BUY", sym: "TSLA", sz: "2,500", price: "$235.00", status: "ACK" },
-  { time: "16:42:28.450", type: "rfq.request", side: "LONG", sym: "AAPL", fwd: "28D", notional: "$1,200,000", status: "FORWARD" },
-];
-
-function InteractiveTerminal() {
-  const [activeTab, setActiveTab] = useState<"stream" | "spec">("stream");
+/* ——— Relay connection panel: shows the real WS endpoint and the EIP-712 domains the relay signs with. No fabricated traffic. ——— */
+function RelayInfoPanel() {
   const [copied, setCopied] = useState(false);
+  const wsUrl = (RELAY_URL || "").replace(/^http/, "ws") + "/mm/ws";
 
-  const payloadSnippet = `{
-  "type": "quote.submit",
-  "rfqId": "0x9f1c...e2",
-  "quote": {
-    "maker": "0xMM...",
-    "makerToken": "0xd060...NVDA",
-    "makerAmount": "5000000000000000000000",
-    "takerAmount": "711600000000",
-    "expiry": 1763690425,
-    "feeBps": 8
-  },
-  "signature": "0x..."
-}`;
+  const spotDomain = `{ name: "Cold Harbor", version: "1", chainId: ${CHAIN_ID} }`;
+  const forwardDomain = `{ name: "Cold Harbor Forwards", version: "1", chainId: ${CHAIN_ID} }`;
 
   return (
-    <div className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-ink-700 bg-ink-900/95 shadow-2xl transition-all duration-300 hover:border-signal-500/50 hover:shadow-[0_0_50px_-15px_rgba(255,176,32,0.2)]">
-      {/* Top Bar with Mac Window Controls & Tab switcher */}
-      <div className="flex items-center justify-between border-b border-ink-700 bg-ink-950/70 px-5 py-3.5 backdrop-blur-md">
-        <div className="flex items-center gap-3">
-          <div className="flex gap-2">
-            <span className="h-3 w-3 rounded-full bg-[#ff5f56]/80 transition-opacity hover:opacity-100" />
-            <span className="h-3 w-3 rounded-full bg-[#ffbd2e]/80 transition-opacity hover:opacity-100" />
-            <span className="h-3 w-3 rounded-full bg-[#27c93f]/80 transition-opacity hover:opacity-100" />
-          </div>
-          <span className="ml-2 font-mono text-[11px] uppercase tracking-[0.1em] text-slate-400">
-            /mm/ws <span className="text-signal-500">·</span> RFQ STREAM
-          </span>
-        </div>
-
-        <div className="flex items-center gap-1 rounded-full border border-ink-700 bg-ink-900 p-1">
-          <button
-            onClick={() => setActiveTab("stream")}
-            className={`rounded-full px-3 py-1 font-mono text-[10px] uppercase tracking-[0.08em] transition-all ${
-              activeTab === "stream" ? "bg-signal-500 font-semibold text-ink-950 shadow-sm" : "text-slate-400 hover:text-mist-100"
-            }`}
-          >
-            Live Logs
-          </button>
-          <button
-            onClick={() => setActiveTab("spec")}
-            className={`rounded-full px-3 py-1 font-mono text-[10px] uppercase tracking-[0.08em] transition-all ${
-              activeTab === "spec" ? "bg-signal-500 font-semibold text-ink-950 shadow-sm" : "text-slate-400 hover:text-mist-100"
-            }`}
-          >
-            EIP-712 Spec
-          </button>
-        </div>
+    <div className="flex h-full flex-col overflow-hidden rounded-2xl border border-ink-700 bg-ink-900/95">
+      <div className="flex items-center justify-between border-b border-ink-700 bg-ink-950/70 px-5 py-3.5">
+        <span className="font-mono text-[11px] uppercase tracking-[0.1em] text-slate-400">
+          /mm/ws <span className="text-signal-500">·</span> Relay connection
+        </span>
       </div>
 
-      {/* Terminal View Body */}
-      {activeTab === "stream" ? (
-        <div className="flex flex-1 flex-col justify-between p-5 font-mono text-[12px] leading-relaxed">
-          <div className="space-y-3 overflow-y-auto">
-            <div className="flex items-center gap-2 text-slate-500">
-              <span className="inline-block h-1.5 w-1.5 animate-ping rounded-full bg-pos-500" />
-              <span>ws://broker-relay.internal:8080/mm/ws connected [TLS/WSS]</span>
-            </div>
-            {SAMPLE_STREAM.map((msg, i) => (
-              <div
-                key={i}
-                className="flex flex-wrap items-baseline gap-x-3 gap-y-1 rounded-lg border border-transparent p-2 transition-all hover:border-ink-700 hover:bg-ink-800/40"
-              >
-                <span className="text-slate-500 text-[11px]">{msg.time}</span>
-                <span
-                  className={`rounded px-1.5 py-0.5 text-[10px] font-semibold uppercase ${
-                    msg.type.includes("request")
-                      ? "bg-info-500/10 text-info-500"
-                      : msg.type.includes("submit")
-                        ? "bg-signal-500/10 text-signal-500"
-                        : "bg-pos-500/10 text-pos-500"
-                  }`}
-                >
-                  {msg.type}
-                </span>
-                <span className="font-semibold text-mist-100">{msg.sym}</span>
-                {msg.side && (
-                  <span className={msg.side === "BUY" || msg.side === "LONG" ? "text-pos-500" : "text-neg-500"}>
-                    {msg.side}
-                  </span>
-                )}
-                {msg.sz && <span className="text-slate-300">{msg.sz} shr</span>}
-                {msg.notional && <span className="text-slate-400">({msg.notional})</span>}
-                {msg.price && <span className="text-signal-400">@ {msg.price}</span>}
-                {msg.outcome && <span className="font-bold text-pos-500">{msg.outcome}</span>}
-                {msg.tx && <span className="text-[11px] text-slate-500">{msg.tx}</span>}
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-4 flex items-center justify-between border-t border-ink-700/60 pt-3 text-[11px] text-slate-400">
-            <div className="flex items-center gap-2">
-              <span className="h-2 w-2 rounded-full bg-pos-500" />
-              <span>Subscribed to: <span className="text-mist-100">spot.rfq.*, forward.rfq.*</span></span>
-            </div>
-            <span className="text-slate-500">Latency: ~24ms</span>
-          </div>
+      <div className="flex-1 space-y-6 p-6 font-mono text-[12px] leading-relaxed">
+        <div>
+          <p className="mono-label text-slate-500">WebSocket endpoint</p>
+          <p className="mt-2 break-all text-mist-100">{wsUrl || "relay URL not configured"}</p>
+          <p className="mt-1 text-[11px] text-slate-500">
+            Connect with header <code className="text-signal-400">X-API-Key</code> after creating a key below.
+          </p>
         </div>
-      ) : (
-        <div className="relative flex flex-1 flex-col justify-between p-5 font-mono text-[12px] leading-relaxed">
+
+        <div>
+          <p className="mono-label text-slate-500">EIP-712 domains</p>
+          <div className="mt-2 flex items-center justify-between gap-2">
+            <code className="break-all text-slate-300">{spotDomain}</code>
+          </div>
+          <div className="mt-2 flex items-center justify-between gap-2">
+            <code className="break-all text-slate-300">{forwardDomain}</code>
+          </div>
           <button
             onClick={async () => {
-              await navigator.clipboard.writeText(payloadSnippet);
+              await navigator.clipboard.writeText(`${spotDomain}\n${forwardDomain}`);
               setCopied(true);
               setTimeout(() => setCopied(false), 1500);
             }}
-            className="absolute right-6 top-6 rounded-md border border-ink-700 bg-ink-800/80 px-3 py-1 text-[11px] text-slate-300 transition-colors hover:border-signal-500 hover:text-signal-400"
+            className="mt-3 rounded-md border border-ink-700 bg-ink-800/80 px-3 py-1 text-[11px] text-slate-300 transition-colors hover:border-signal-500 hover:text-signal-400"
           >
-            {copied ? "Copied ✓" : "Copy Payload"}
+            {copied ? "Copied" : "Copy domains"}
           </button>
-          <pre className="overflow-x-auto text-slate-300">
-            <code>{payloadSnippet}</code>
-          </pre>
-          <div className="border-t border-ink-700/60 pt-3 text-[11px] text-slate-400">
-            EIP-712 Domain: <span className="text-mist-100">{`{ name: "Cold Harbor", version: "1", chainId: 4663 }`}</span>
-          </div>
         </div>
-      )}
+
+        <div className="border-t border-ink-700/60 pt-4 text-[11px] text-slate-400">
+          Your signed quotes must use the domain matching the product you&apos;re quoting. See <code className="text-signal-400">/docs</code> for the full field layout.
+        </div>
+      </div>
     </div>
   );
 }
@@ -379,7 +297,7 @@ export default function MakerPortal() {
 
               {/* Right Column: Live Interactive WebSocket Preview Terminal */}
               <div className="col-span-12 h-[480px] lg:col-span-6">
-                <InteractiveTerminal />
+                <RelayInfoPanel />
               </div>
             </div>
           </section>
@@ -500,7 +418,7 @@ export default function MakerPortal() {
                     {me.limits.length === 0 ? (
                       <tr>
                         <td colSpan={4} className="py-6 text-center text-slate-500">
-                          No limits set — defaulting to full vault balance.
+                          No limits set, defaulting to full vault balance.
                         </td>
                       </tr>
                     ) : (
@@ -634,7 +552,7 @@ export default function MakerPortal() {
                             </span>
                           </td>
                           <td className="py-3 font-mono text-xs text-slate-400">{q.received_ms} ms</td>
-                          <td className="py-3 text-xs text-slate-400">{q.reject_reason || "—"}</td>
+                          <td className="py-3 text-xs text-slate-400">{q.reject_reason || "-"}</td>
                         </tr>
                       ))
                     )}

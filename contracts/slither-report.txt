@@ -1,0 +1,147 @@
+/Users/mac/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+'forge clean' running (wd: /Users/mac/Documents/Workspace/Work/Wealth/November/21/Cold Harbor/contracts)
+'forge config --json' running
+'forge build --build-info --skip ./test/** ./script/** --force' running (wd: /Users/mac/Documents/Workspace/Work/Wealth/November/21/Cold Harbor/contracts)
+INFO:Detectors:
+Detector: arbitrary-send-erc20
+ColdHarborSettlement._settle(ColdHarborSettlement.Quote,bool) (src/ColdHarborSettlement.sol#203-216) uses arbitrary from in transferFrom: IERC20(q.takerToken).safeTransferFrom(q.taker,q.maker,q.takerAmount) (src/ColdHarborSettlement.sol#207)
+ColdHarborSettlement._settle(ColdHarborSettlement.Quote,bool) (src/ColdHarborSettlement.sol#203-216) uses arbitrary from in transferFrom: IERC20(q.makerToken).safeTransferFrom(q.maker,feeRecipient,fee) (src/ColdHarborSettlement.sol#214)
+ColdHarborSettlement._settle(ColdHarborSettlement.Quote,bool) (src/ColdHarborSettlement.sol#203-216) uses arbitrary from in transferFrom: IERC20(q.takerToken).safeTransferFrom(q.taker,q.maker,q.takerAmount) (src/ColdHarborSettlement.sol#212)
+ColdHarborSettlement._settle(ColdHarborSettlement.Quote,bool) (src/ColdHarborSettlement.sol#203-216) uses arbitrary from in transferFrom: IERC20(q.makerToken).safeTransferFrom(q.maker,q.taker,q.makerAmount) (src/ColdHarborSettlement.sol#209)
+ColdHarborSettlement._settle(ColdHarborSettlement.Quote,bool) (src/ColdHarborSettlement.sol#203-216) uses arbitrary from in transferFrom: IERC20(q.makerToken).safeTransferFrom(q.maker,q.taker,q.makerAmount - fee) (src/ColdHarborSettlement.sol#213)
+ColdHarborSettlement._settle(ColdHarborSettlement.Quote,bool) (src/ColdHarborSettlement.sol#203-216) uses arbitrary from in transferFrom: IERC20(q.takerToken).safeTransferFrom(q.taker,feeRecipient,fee) (src/ColdHarborSettlement.sol#208)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#arbitrary-from-in-transferfrom
+INFO:Detectors:
+Detector: divide-before-multiply
+ForwardEngine._applyPenalty(ForwardEngine.Position,address,address,uint256) (src/ForwardEngine.sol#499-509) performs a multiplication on the result of a division:
+	- penalty = (_notional(p.qty,p.strike) * liquidationPenaltyBps) / BPS (src/ForwardEngine.sol#503)
+	- protocolCut = (penalty * penaltyProtocolShareBps) / BPS (src/ForwardEngine.sol#505)
+MarketCalendar._daysFromCivil(uint256,uint256,uint256) (src/MarketCalendar.sol#116-123) performs a multiplication on the result of a division:
+	- era = y / 400 (src/MarketCalendar.sol#118)
+	- yoe = y - era * 400 (src/MarketCalendar.sol#119)
+MarketCalendar._daysFromCivil(uint256,uint256,uint256) (src/MarketCalendar.sol#116-123) performs a multiplication on the result of a division:
+	- era = y / 400 (src/MarketCalendar.sol#118)
+	- era * 146097 + doe - 719468 (src/MarketCalendar.sol#122)
+MarketCalendar._civil(uint256) (src/MarketCalendar.sol#126-137) performs a multiplication on the result of a division:
+	- era = z / 146097 (src/MarketCalendar.sol#128)
+	- doe = z - era * 146097 (src/MarketCalendar.sol#129)
+MarketCalendar._civil(uint256) (src/MarketCalendar.sol#126-137) performs a multiplication on the result of a division:
+	- era = z / 146097 (src/MarketCalendar.sol#128)
+	- y = yoe + era * 400 (src/MarketCalendar.sol#131)
+MarketCalendar._civil(uint256) (src/MarketCalendar.sol#126-137) performs a multiplication on the result of a division:
+	- yoe = (doe - doe / 1460 + doe / 36524 - doe / 146096) / 365 (src/MarketCalendar.sol#130)
+	- doy = doe - (365 * yoe + yoe / 4 - yoe / 100) (src/MarketCalendar.sol#132)
+MarketCalendar._civil(uint256) (src/MarketCalendar.sol#126-137) performs a multiplication on the result of a division:
+	- mp = (5 * doy + 2) / 153 (src/MarketCalendar.sol#133)
+	- d = doy - (153 * mp + 2) / 5 + 1 (src/MarketCalendar.sol#134)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#divide-before-multiply
+INFO:Detectors:
+Detector: uninitialized-local
+ForwardEngine._closeAt(uint256,ForwardEngine.Position,uint256,ForwardEngine.Status,address).penalty (src/ForwardEngine.sol#461) is a local variable never initialized
+OracleAdapter.observe(address,uint64).usedBackup (src/OracleAdapter.sol#92) is a local variable never initialized
+OracleAdapter._priceAtClose(address,uint64).roundId (src/OracleAdapter.sol#114) is a local variable never initialized
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#uninitialized-local-variables
+INFO:Detectors:
+Detector: unused-return
+ColdHarborSettlement._verifyMakerSig(ColdHarborSettlement.Quote,bytes) (src/ColdHarborSettlement.sol#228-236) ignores return value by (recovered,err,None) = ECDSA.tryRecover(digest,sig) (src/ColdHarborSettlement.sol#230)
+ForwardEngine._markPrice(ForwardEngine.Position) (src/ForwardEngine.sol#434-436) ignores return value by (price,None) = ORACLE.referencePrice(p.feed) (src/ForwardEngine.sol#435)
+ForwardEngine._verifyMakerSig(bytes32,address,bytes) (src/ForwardEngine.sol#528-535) ignores return value by (recovered,err,None) = ECDSA.tryRecover(digest,sig) (src/ForwardEngine.sol#529)
+OracleAdapter._priceAtClose(address,uint64) (src/OracleAdapter.sol#113-135) ignores return value by (r) = IAggregatorV3(feed).latestRoundData() (src/OracleAdapter.sol#115-119)
+OracleAdapter._priceAtClose(address,uint64) (src/OracleAdapter.sol#113-135) ignores return value by (answer,updatedAt) = IAggregatorV3(feed).getRoundData(roundId) (src/OracleAdapter.sol#121-130)
+OracleAdapter._latest(address) (src/OracleAdapter.sol#153-161) ignores return value by (answer,updatedAt) = IAggregatorV3(feed).latestRoundData() (src/OracleAdapter.sol#154-160)
+OracleAdapter._sequencerOk() (src/OracleAdapter.sol#163-171) ignores return value by (answer,startedAt) = IAggregatorV3(s).latestRoundData() (src/OracleAdapter.sol#166-170)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-return
+INFO:Detectors:
+Detector: missing-zero-check
+OracleAdapter.setParams(uint64,uint64,uint64,uint16,uint16,address,uint64).sequencerFeed_ (src/OracleAdapter.sol#62) lacks a zero-check on :
+		- sequencerFeed = sequencerFeed_ (src/OracleAdapter.sol#71)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-zero-address-validation
+INFO:Detectors:
+Detector: calls-loop
+OracleAdapter._priceAtClose(address,uint64) (src/OracleAdapter.sol#113-135) has external calls inside a loop: (answer,updatedAt) = IAggregatorV3(feed).getRoundData(roundId) (src/OracleAdapter.sol#121-130)
+	Calls stack containing the loop:
+		OracleAdapter.observe(address,uint64)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation/#calls-inside-a-loop
+INFO:Detectors:
+Detector: reentrancy-benign
+Reentrancy in ForwardEngine._open(ForwardEngine.ForwardQuote,address) (src/ForwardEngine.sol#263-288):
+	External calls:
+	- VAULT.lock(q.taker,im) (src/ForwardEngine.sol#268)
+	- VAULT.charge(q.taker,feeRecipient,fee) (src/ForwardEngine.sol#269)
+	- VAULT.lock(q.maker,im) (src/ForwardEngine.sol#270)
+	State variables written after the call(s):
+	- p.maker = q.maker (src/ForwardEngine.sol#274)
+	- p.taker = q.taker (src/ForwardEngine.sol#275)
+	- p.stockToken = q.stockToken (src/ForwardEngine.sol#276)
+	- p.feed = feed (src/ForwardEngine.sol#277)
+	- p.side = q.side (src/ForwardEngine.sol#278)
+	- p.qty = q.qty (src/ForwardEngine.sol#279)
+	- p.strike = q.strike (src/ForwardEngine.sol#280)
+	- p.maturityCloseTs = q.maturityCloseTs (src/ForwardEngine.sol#281)
+	- p.makerMargin = im (src/ForwardEngine.sol#282)
+	- p.takerMargin = im (src/ForwardEngine.sol#283)
+	- p.mmBps = q.mmBps (src/ForwardEngine.sol#284)
+	- p.status = Status.Open (src/ForwardEngine.sol#285)
+	- id = nextId ++ (src/ForwardEngine.sol#272)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-2
+INFO:Detectors:
+Detector: timestamp
+ColdHarborSettlement._validate(ColdHarborSettlement.Quote) (src/ColdHarborSettlement.sol#190-201) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp > q.expiry (src/ColdHarborSettlement.sol#192)
+ForwardEngine._validateQuote(ForwardEngine.ForwardQuote) (src/ForwardEngine.sol#245-261) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp > q.expiry (src/ForwardEngine.sol#247)
+	- q.maturityCloseTs < block.timestamp + minTenor || q.maturityCloseTs > block.timestamp + maxTenor (src/ForwardEngine.sol#255)
+ForwardEngine.liquidate(uint256) (src/ForwardEngine.sol#323-333) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp <= p.callDeadline (src/ForwardEngine.sol#326)
+OracleAdapter.observe(address,uint64) (src/OracleAdapter.sol#83-110) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp < uint256(closeTs) + closeGrace (src/OracleAdapter.sol#84)
+OracleAdapter.referencePrice(address) (src/OracleAdapter.sol#141-151) uses timestamp for comparisons
+	Dangerous comparisons:
+	- good && age <= liveMaxAge (src/OracleAdapter.sol#144)
+	- bGood && bAge <= liveMaxAge (src/OracleAdapter.sol#148)
+OracleAdapter._latest(address) (src/OracleAdapter.sol#153-161) uses timestamp for comparisons
+	Dangerous comparisons:
+	- answer <= 0 || updatedAt == 0 || updatedAt > block.timestamp (src/OracleAdapter.sol#155)
+OracleAdapter._sequencerOk() (src/OracleAdapter.sol#163-171) uses timestamp for comparisons
+	Dangerous comparisons:
+	- answer == 0 && block.timestamp >= startedAt + sequencerGrace (src/OracleAdapter.sol#167)
+TestnetFeed._push(uint256,uint256) (src/mocks/TestnetFeed.sol#39-54) uses timestamp for comparisons
+	Dangerous comparisons:
+	- n != 0 (src/mocks/TestnetFeed.sol#42)
+	- ts < last.updatedAt (src/mocks/TestnetFeed.sol#44)
+	- diff * 10_000 > prev * MAX_MOVE_BPS (src/mocks/TestnetFeed.sol#47)
+	- ts > block.timestamp (src/mocks/TestnetFeed.sol#49)
+	- price > prev (src/mocks/TestnetFeed.sol#46)
+TestnetFeed.latestRoundData() (src/mocks/TestnetFeed.sol#56-62) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(n != 0,no data) (src/mocks/TestnetFeed.sol#58)
+TestnetFeed.getRoundData(uint80) (src/mocks/TestnetFeed.sol#64-68) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(id >= 1 && id <= _rounds.length,no round) (src/mocks/TestnetFeed.sol#65)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#block-timestamp
+INFO:Detectors:
+Detector: missing-inheritance
+MarginVault (src/MarginVault.sol#21-113) should inherit from IMarginVault (src/MarginVault.sol#9-15)
+MarketCalendar (src/MarketCalendar.sol#14-138) should inherit from IMarketCalendar (src/ForwardEngine.sol#18-20)
+OracleAdapter (src/OracleAdapter.sol#20-172) should inherit from IOracleAdapter (src/ForwardEngine.sol#13-16)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-inheritance
+INFO:Detectors:
+Detector: naming-convention
+Variable ColdHarborSettlement.USDG (src/ColdHarborSettlement.sol#48) is not in mixedCase
+Variable ForwardEngine.VAULT (src/ForwardEngine.sol#97) is not in mixedCase
+Variable ForwardEngine.ORACLE (src/ForwardEngine.sol#98) is not in mixedCase
+Variable ForwardEngine.CALENDAR (src/ForwardEngine.sol#99) is not in mixedCase
+Variable MarginVault.USDG (src/MarginVault.sol#24) is not in mixedCase
+Variable TestnetFeed.MAX_MOVE_BPS (src/mocks/TestnetFeed.sol#16) is not in mixedCase
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions
+INFO:Detectors:
+Detector: unindexed-event-address
+Event Pausable.Paused(address) (lib/openzeppelin-contracts/contracts/utils/Pausable.sol#23) has address parameters but no indexed parameters
+Event Pausable.Unpaused(address) (lib/openzeppelin-contracts/contracts/utils/Pausable.sol#28) has address parameters but no indexed parameters
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unindexed-event-address-parameters
+INFO:Slither:. analyzed (41 contracts with 100 detectors), 47 result(s) found
