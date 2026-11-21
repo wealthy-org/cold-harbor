@@ -11,7 +11,8 @@
     "test": "vitest run",
     "mm:create": "tsx scripts/mm-create.ts",
     "sim:setup": "tsx scripts/sim-setup.ts",
-    "sim:maker": "tsx scripts/sim-maker.ts"
+    "sim:maker": "tsx scripts/sim-maker.ts",
+    "sync:universe": "tsx scripts/sync-universe.ts"
   },
   "engines": {
     "node": ">=20"

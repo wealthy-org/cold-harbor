@@ -26,6 +26,7 @@ const schema = z.object({
   FW_ENGINE: addr,
   FW_VAULT: addr,
   FW_CALENDAR: addr,
+  FW_ORACLE: addr,
   TOKENS: jsonMap,
   FW_FEEDS: jsonMap,
   // First block the indexer reads (testnet: just before the first deploy). Set to the deploy block on a new network.

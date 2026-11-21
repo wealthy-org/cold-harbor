@@ -89,10 +89,28 @@ export function createHttp(cfg: Config, db: Db, hub: Hub, hooks: { indexer?: () 
       }
 
       if (req.method === "GET" && url.pathname === "/universe") {
+        const db_rows = (await db.query(`SELECT ticker, active, paused, pyth_feed_id FROM universe`)).rows as { ticker: string; active: boolean; paused: boolean; pyth_feed_id: string | null }[];
+        const flags = new Map(db_rows.map((r) => [r.ticker, r]));
         const tickers = Object.entries(cfg.TOKENS).map(([ticker, token]) => ({
           ticker, token, isEtf: ETFS.has(ticker), imBps: ETFS.has(ticker) ? 1000 : 2000, forwardFeed: cfg.FW_FEEDS[ticker] ?? null,
+          active: flags.get(ticker)?.active ?? true, paused: flags.get(ticker)?.paused ?? false, pythFeedId: flags.get(ticker)?.pyth_feed_id ?? null,
         }));
         return respond(req, res, 200, { chainId: cfg.CHAIN_ID, settlement: cfg.SETTLEMENT ?? null, usdg: cfg.USDG ?? null, forwardEngine: cfg.FW_ENGINE ?? null, tickers });
+      }
+
+      const me = /^\/forwards\/(\d+)\/margin-events$/.exec(url.pathname);
+      if (req.method === "GET" && me) {
+        const r = await db.query(
+          `SELECT type, who, amount, price, tx_hash, block_time FROM margin_events WHERE forward_id = $1 ORDER BY block_time DESC LIMIT 200`,
+          [me[1]]
+        );
+        return respond(req, res, 200, { items: r.rows });
+      }
+
+      if (req.method === "GET" && url.pathname === "/fees") {
+        const totals = await db.query(`SELECT source, kind, SUM(amount_usdg)::text AS total FROM fee_ledger GROUP BY source, kind`);
+        const recent = await db.query(`SELECT source, ref_id, kind, amount_usdg, block_time FROM fee_ledger ORDER BY block_time DESC LIMIT 100`);
+        return respond(req, res, 200, { totals: totals.rows, recent: recent.rows });
       }
 
       if (req.method === "POST" && url.pathname === "/rfq") {
