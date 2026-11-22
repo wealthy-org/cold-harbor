@@ -337,6 +337,9 @@ function Footer() {
               {l}
             </a>
           ))}
+          <a href="https://x.com/coldharbororg" target="_blank" rel="noopener noreferrer" className="hover:text-signal-500">
+            X
+          </a>
         </nav>
       </div>
       <p className="mx-auto max-w-[1440px] px-4 pb-10 text-xs leading-relaxed text-slate-500 lg:px-16">
