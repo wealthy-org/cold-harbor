@@ -10,15 +10,15 @@ const sans = Instrument_Sans({
 const mono = JetBrains_Mono({
   subsets: ["latin"],
   weight: ["400", "500"],
-  variable: "----font-mono-label",
+  variable: "--font-mono-label",
 });
 
 export const metadata: Metadata = {
-  title: "Cold Harbor | On-chain OTC for tokenized stocks",
+  title: "Cold Harbor | On Chain OTC for tokenized stocks",
   description:
     "Firm quotes from competing market makers for tokenized US stocks on Robinhood Chain. Atomic settlement. Cash-settled forwards.",
   metadataBase: new URL("https://coldharbor.xyz"),
-  openGraph: { title: "Cold Harbor", description: "Where size settles. On-chain OTC for tokenized US stocks.", type: "website" },
+  openGraph: { title: "Cold Harbor", description: "Where size settles. On Chain OTC for tokenized US stocks.", type: "website" },
   twitter: { card: "summary_large_image" },
 };
 export const viewport: Viewport = { themeColor: "#0a0c12" };

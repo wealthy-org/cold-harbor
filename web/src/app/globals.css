@@ -84,6 +84,10 @@ body {
   width: max-content;
 }
 
+.ticker-wrap:hover .ticker-track {
+  animation-play-state: paused;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .flow-line {
     animation-duration: 40s;
@@ -115,43 +119,14 @@ details[open] .faq-sign::before {
   content: "+";
 }
 
-/* Scroll reveal: hidden only once JS has armed it. */
+/* Safe visibility: elements are always 100% visible, no blank gray/black blocks */
+[data-r],
 .r-ready [data-r] {
-  opacity: 0;
-  transform: translateY(28px);
-  transition: opacity 0.9s cubic-bezier(.2, .7, .2, 1), transform 0.9s cubic-bezier(.2, .7, .2, 1);
+  opacity: 1 !important;
+  transform: none !important;
 }
 
-.r-ready [data-r].in {
-  opacity: 1;
-  transform: none;
-}
-
-.r-ready [data-r]:nth-child(2) {
-  transition-delay: .08s;
-}
-
-.r-ready [data-r]:nth-child(3) {
-  transition-delay: .16s;
-}
-
-.r-ready [data-r]:nth-child(4) {
-  transition-delay: .24s;
-}
-
-.r-ready [data-r]:nth-child(5) {
-  transition-delay: .32s;
-}
-
-.r-ready [data-r]:nth-child(6) {
-  transition-delay: .4s;
-}
-
-.r-ready [data-r="line"] {
-  transform: none;
-  border-color: transparent;
-}
-
+.r-ready [data-r="line"],
 .r-ready [data-r="line"].in {
   border-color: var(--color-ink-700);
 }
@@ -293,6 +268,32 @@ details[open] .faq-sign::before {
   background-color: var(--color-ink-700);
 }
 
+/* Institutional Wintermute card styling */
+.wm-card {
+  position: relative;
+  border: 1px solid var(--color-ink-700);
+  background: var(--color-ink-900);
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.wm-card:hover {
+  border-color: var(--color-signal-500);
+}
+
+.wm-marker {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px;
+  height: 0;
+  background: var(--color-signal-500);
+  transition: height 0.3s ease;
+}
+
+.wm-card:hover .wm-marker {
+  height: 100%;
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -311,4 +312,59 @@ details[open] .faq-sign::before {
   .fade-in {
     animation: none;
   }
+  .anim-coin-flip,
+  .anim-slide-up,
+  .anim-slide-down {
+    animation: none !important;
+  }
+}
+
+/* Asset Ticker Bar Animations */
+@keyframes coinFlip {
+  0% {
+    transform: perspective(600px) rotateY(-90deg) scale(0.75);
+    opacity: 0;
+  }
+  60% {
+    transform: perspective(600px) rotateY(12deg) scale(1.06);
+    opacity: 0.9;
+  }
+  100% {
+    transform: perspective(600px) rotateY(0deg) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes slideUpIn {
+  0% {
+    transform: translateY(16px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideDownIn {
+  0% {
+    transform: translateY(-16px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.anim-coin-flip {
+  animation: coinFlip 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.anim-slide-up {
+  animation: slideUpIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.anim-slide-down {
+  animation: slideDownIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
 }

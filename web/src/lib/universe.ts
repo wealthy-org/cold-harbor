@@ -48,5 +48,10 @@ export const NAMES: Record<string, string> = {
   GLD: "SPDR Gold Trust",
 };
 
-// Company logos vendored in /public/logos (favicon service, by company domain). Others fall back to monogram.
-export const HAS_LOGO = new Set(["AAPL", "AMZN", "ASML", "BABA", "CLSK", "COIN", "CRCL", "CRWV", "DELL", "GLD", "GME", "GOOGL", "INTC", "IONQ", "META", "MSFT", "MSTR", "MU", "NBIS", "NVDA", "ORCL", "PLTR", "QQQ", "RGTI", "RKLB", "SNDK", "SPCX", "SPY", "TSLA", "USAR", "USO"]);
+// Company logos vendored in /public/logos (all 36 tokens now have dedicated logos)
+export const HAS_LOGO = new Set([
+  "AAPL", "AMD", "AMZN", "ASML", "BABA", "CLSK", "COIN", "CRCL", "CRWV", "DELL",
+  "EWY", "GLD", "GME", "GOOGL", "INTC", "IONQ", "META", "MSFT", "MSTR", "MU",
+  "NBIS", "NVDA", "ORCL", "PLTR", "QQQ", "RGTI", "RKLB", "SGOV", "SLV", "SNDK",
+  "SPCX", "SPY", "TSLA", "TSM", "USAR", "USO"
+]);
