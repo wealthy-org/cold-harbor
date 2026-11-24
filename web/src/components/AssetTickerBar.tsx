@@ -27,19 +27,28 @@ const ASSETS: Asset[] = [
 function RollingDigit({ char }: { char: string }) {
   const isDigit = /\d/.test(char);
   if (!isDigit) {
-    return <span className="inline-block select-none">{char}</span>;
+    const isDot = char === ".";
+    return (
+      <span
+        className={`inline-flex h-[1.2em] ${
+          isDot ? "w-[0.35em]" : "w-[0.62em]"
+        } items-center justify-center select-none leading-none`}
+      >
+        {char}
+      </span>
+    );
   }
 
   const digit = parseInt(char, 10);
 
   return (
-    <span className="relative inline-block h-[1.2em] w-[0.62em] overflow-hidden align-baseline">
+    <span className="relative inline-flex h-[1.2em] w-[0.62em] overflow-hidden leading-none">
       <span
         className="absolute left-0 top-0 flex flex-col transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]"
         style={{ transform: `translateY(-${digit * 10}%)` }}
       >
         {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((n) => (
-          <span key={n} className="flex h-[1.2em] items-center justify-center">
+          <span key={n} className="flex h-[1.2em] items-center justify-center leading-none">
             {n}
           </span>
         ))}
@@ -68,7 +77,7 @@ function RollingPrice({
 
   return (
     <div
-      className={`inline-flex items-baseline font-mono text-2xl sm:text-3xl font-bold tracking-tight transition-all duration-500 ${
+      className={`inline-flex items-center font-mono text-2xl sm:text-3xl font-bold tracking-tight leading-none transition-all duration-500 ${
         flash
           ? up
             ? "text-pos-400 [text-shadow:0_0_18px_rgba(34,197,94,0.7)] scale-[1.02]"

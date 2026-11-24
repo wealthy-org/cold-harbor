@@ -9,6 +9,11 @@ import {
   ApiMotif,
 } from "@/components/Motifs";
 
+type TelemetryMetric = {
+  label: string;
+  value: string;
+};
+
 type ServiceItem = {
   id: string;
   tag: string;
@@ -16,6 +21,7 @@ type ServiceItem = {
   headline: string;
   description: string;
   badges: string[];
+  metrics: TelemetryMetric[];
   href: string;
   cta: string;
   Motif: React.ComponentType;
@@ -30,6 +36,11 @@ const SERVICES: ServiceItem[] = [
     description:
       "Execute $50K to $5M in tokenized US equities with guaranteed prices from competing market makers. Signed EIP-712 quotes settle atomically in a single contract call or completely revert.",
     badges: ["Signed firm quotes", "Private taker broadcast", "15–30s expiry", "1-tx atomic swap"],
+    metrics: [
+      { label: "EXECUTION", value: "1-TX ATOMIC" },
+      { label: "SPREAD", value: "0.02%" },
+      { label: "BLOCK SIZE", value: "$50K–$5M" },
+    ],
     href: "/app/trade",
     cta: "Trade Spot Block",
     Motif: RfqMotif,
@@ -42,6 +53,11 @@ const SERVICES: ServiceItem[] = [
     description:
       "Take Long or Short positions on tokenized equities with custom settlement dates. Settle against official NYSE/Nasdaq close prices observed by Chainlink oracles with automated keeper liquidations.",
     badges: ["1 week to 3 months", "USDG collateralized", "Oracle-verified close", "Capital efficient"],
+    metrics: [
+      { label: "TENORS", value: "1W–3M" },
+      { label: "ORACLE", value: "CHAINLINK 16:00 ET" },
+      { label: "MARGIN", value: "USDG VAULT" },
+    ],
     href: "/app/forwards",
     cta: "Open Forward Position",
     Motif: ForwardMotif,
@@ -54,6 +70,11 @@ const SERVICES: ServiceItem[] = [
     description:
       "Create liquid, efficient markets for tokenized equities. Stream quotes over low-latency WebSocket (/mm/ws) and hedge inventory natively on Arcus perps or Lighter on the same chain.",
     badges: ["Low-latency WebSocket", "Bilateral firm quotes", "Same-chain hedging", "Arcus & Lighter"],
+    metrics: [
+      { label: "FEED", value: "WEBSOCKET /mm/ws" },
+      { label: "HEDGING", value: "ARCUS & LIGHTER" },
+      { label: "FLOW", value: "NON-TOXIC TAKER" },
+    ],
     href: "/mm",
     cta: "Provide Liquidity",
     Motif: LiquidityMotif,
@@ -66,6 +87,11 @@ const SERVICES: ServiceItem[] = [
     description:
       "No ISDA agreements, no prime brokerage counterparty insolvency risk. All settlement is executed directly by audited smart contracts on Robinhood Chain. Verified on-chain source code with zero critical findings.",
     badges: ["Slither static analysis verified", "ERC-1271 contract support", "Permissionless verification", "All-or-revert atomic swap"],
+    metrics: [
+      { label: "AUDIT", value: "SLITHER VERIFIED" },
+      { label: "NETWORK", value: "ROBINHOOD CHAIN" },
+      { label: "FINALITY", value: "ALL-OR-REVERT" },
+    ],
     href: "/docs",
     cta: "View Contract Reference",
     Motif: SettlementMotif,
@@ -78,6 +104,11 @@ const SERVICES: ServiceItem[] = [
     description:
       "High-throughput EIP-712 typed quote validation, automated keeper liquidation, and granular risk limits per ticker and per counterparty. Complete programmatic access for market makers.",
     badges: ["WebSocket RFQ stream", "Registered hot signers", "Isolated margin vault", "EIP-712 typing"],
+    metrics: [
+      { label: "LATENCY", value: "<12MS QUOTE" },
+      { label: "STANDARD", value: "EIP-712 TYPED" },
+      { label: "ACCESS", value: "REST & WS STREAM" },
+    ],
     href: "/mm",
     cta: "Connect Quoting Engine",
     Motif: ApiMotif,
@@ -160,37 +191,55 @@ export default function ServicesAccordion() {
         </div>
       </div>
 
-      {/* Right side: Vertically Centered Live Preview Card */}
+      {/* Right side: Vertically Centered Ultra-Luxury Live Preview Card */}
       <div className="col-span-12 lg:col-span-5 flex items-center justify-center">
-        <div className="w-full min-h-[480px] flex flex-col justify-between border border-ink-700 bg-[#0c0f18] p-6 sm:p-8 shadow-2xl transition-all duration-300 relative overflow-hidden rounded-sm hover:border-signal-500/50">
+        <div className="w-full min-h-[540px] flex flex-col justify-between border border-ink-700/90 bg-[#06080d]/95 backdrop-blur-xl p-6 sm:p-8 shadow-[0_24px_50px_rgba(0,0,0,0.8)] transition-all duration-300 relative overflow-hidden rounded-xl hover:border-signal-500/50 before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-signal-500/50 before:to-transparent">
+          {/* Cyber corner accents */}
+          <div className="pointer-events-none absolute left-0 top-0 h-4 w-4 border-l-2 border-t-2 border-signal-500/80" />
+          <div className="pointer-events-none absolute right-0 top-0 h-4 w-4 border-r-2 border-t-2 border-signal-500/80" />
+          <div className="pointer-events-none absolute left-0 bottom-0 h-4 w-4 border-l-2 border-b-2 border-signal-500/80" />
+          <div className="pointer-events-none absolute right-0 bottom-0 h-4 w-4 border-r-2 border-b-2 border-signal-500/80" />
+
           {/* Top Card Header */}
           <div className="flex items-center justify-between border-b border-ink-700/80 pb-4">
-            <span className="font-mono text-xs uppercase tracking-[0.1em] text-signal-500 font-bold">
-              {activeService.tag}
-            </span>
+            <div className="flex items-center gap-2.5">
+              <span className="font-mono text-xs uppercase tracking-[0.12em] text-signal-500 font-bold">
+                {activeService.tag}
+              </span>
+            </div>
             <div className="flex items-center gap-2">
-              <span className="h-2 w-2 rounded-full bg-signal-500 animate-pulse shadow-[0_0_8px_rgba(255,176,32,0.8)]" />
+              <span className="h-2 w-2 rounded-full bg-signal-500 animate-pulse shadow-[0_0_10px_rgba(255,176,32,0.9)]" />
               <span className="rounded border border-ink-700 bg-ink-950 px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-wider text-slate-300">
-                Live Preview
+                Live 60 FPS
               </span>
             </div>
           </div>
 
-          {/* Dynamic 3D Matrix Motion Graphic Container */}
-          <div className="my-4 flex h-64 sm:h-72 items-center justify-center p-2 overflow-hidden relative">
+          {/* Dynamic 3D Matrix Motion Graphic Viewport with Volumetric Atmospheric Backlight */}
+          <div className="my-3 flex h-72 sm:h-80 md:h-[340px] items-center justify-center p-2 overflow-hidden relative rounded-lg bg-[radial-gradient(ellipse_at_center,_rgba(255,176,32,0.12)_0%,_rgba(10,12,18,0.4)_50%,_transparent_75%)] border border-ink-800/50">
             <div key={activeService.id} className="anim-slide-up h-full w-full flex items-center justify-center">
               <activeService.Motif />
             </div>
           </div>
 
+          {/* Micro Telemetry Specs Row */}
+          <div className="grid grid-cols-3 gap-2 border-b border-ink-700/60 pb-3 mb-3">
+            {activeService.metrics.map((m) => (
+              <div key={m.label} className="bg-ink-950/70 border border-ink-800 rounded px-2 py-1 text-center">
+                <p className="font-mono text-[9px] uppercase tracking-wider text-slate-500">{m.label}</p>
+                <p className="font-mono text-[10px] font-semibold text-slate-200 truncate mt-0.5">{m.value}</p>
+              </div>
+            ))}
+          </div>
+
           {/* Bottom Card Footer with Direct Launch */}
-          <div className="border-t border-ink-700/80 pt-4">
+          <div className="pt-1">
             <div className="flex items-center justify-between">
               <div>
                 <p className="font-mono text-xs font-semibold uppercase tracking-wider text-mist-100">
                   {activeService.title}
                 </p>
-                <p className="mt-0.5 text-xs text-slate-400">On Chain non-custodial software</p>
+                <p className="mt-0.5 text-xs text-slate-400">On Chain non-custodial software · 1-Tx Settlement</p>
               </div>
               <a
                 href={activeService.href}

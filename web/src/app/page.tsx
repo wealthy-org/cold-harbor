@@ -182,7 +182,9 @@ function CapabilitiesSection() {
           title="Trade at the source of On Chain equity liquidity."
         />
         {/* The Interactive Accordion from User Video (Frames 12-16) */}
-        <ServicesAccordion />
+        <div data-r data-r-delay="1">
+          <ServicesAccordion />
+        </div>
       </div>
     </section>
   );
@@ -220,8 +222,8 @@ function How() {
           </h2>
         </div>
         <ol className="grid grid-cols-1 gap-px bg-ink-700 lg:grid-cols-3">
-          {steps.map(([n, t, d]) => (
-            <li key={n} data-r className="bg-ink-950 p-8 lg:p-12">
+          {steps.map(([n, t, d], i) => (
+            <li key={n} data-r data-r-delay={String((i % 3) + 1)} className="bg-ink-950 p-8 lg:p-12">
               <span className="font-mono text-6xl font-medium leading-none text-ink-700 lg:text-7xl">{n}</span>
               <h3 className="mt-6 text-2xl font-semibold tracking-tight text-mist-100">{t}</h3>
               <p className="mt-4 leading-relaxed text-slate-300">{d}</p>
@@ -261,8 +263,8 @@ function WhoWeServe() {
       <div className="mx-auto max-w-[1440px] px-4 py-24 lg:px-16 lg:py-32">
         <SectionHead index="03" label="Who we serve" title="Dedicated trading solutions across On Chain markets." />
         <div className="grid grid-cols-1 gap-px bg-ink-700 sm:grid-cols-2 lg:grid-cols-4">
-          {people.map(([n, t, d]) => (
-            <div key={t} data-r className="wm-card bg-ink-900 p-8 lg:p-10 lg:min-h-[280px]">
+          {people.map(([n, t, d], i) => (
+            <div key={t} data-r data-r-delay={String((i % 4) + 1)} className="wm-card bg-ink-900 p-8 lg:p-10 lg:min-h-[280px]">
               <span className="wm-marker" />
               <p className="font-mono text-xs uppercase tracking-wider text-signal-500">{n}</p>
               <h3 className="mt-8 text-xl font-semibold tracking-tight text-mist-100">{t}</h3>
@@ -280,8 +282,10 @@ function MarketsSection() {
     <section id="markets" className="border-b border-ink-700 bg-ink-900">
       <div className="mx-auto max-w-[1440px] px-4 py-24 lg:px-16 lg:py-32">
         <SectionHead index="04" label="Markets Universe" title="36 tokenized stocks and ETFs at launch." />
-        <Markets />
-        <p className="mt-6 max-w-3xl text-xs leading-relaxed text-slate-500">
+        <div data-r data-r-delay="1">
+          <Markets />
+        </div>
+        <p data-r data-r-delay="2" className="mt-6 max-w-3xl text-xs leading-relaxed text-slate-500">
           Source: Chainlink Reference Data Directory, Robinhood Chain mainnet. IM is the proposed initial margin
           and may change. Green dot marks tickers with a 24/7 feed. Token addresses come from the official Robinhood registry.
         </p>
@@ -339,7 +343,7 @@ function Makers() {
         </div>
 
         {/* Terminal Window */}
-        <div data-r className="col-span-12 min-w-0 lg:col-span-7">
+        <div data-r data-r-delay="2" className="col-span-12 min-w-0 lg:col-span-7">
           <div className="border border-ink-700 bg-ink-900 shadow-2xl">
             <div className="flex items-center justify-between border-b border-ink-700 px-6 py-3.5">
               <div className="flex items-center gap-2">
@@ -373,7 +377,6 @@ function InsightsSection() {
       desc: "Every contract deployment, spot quote fill, and forward settlement on Robinhood Chain testnet is recorded On Chain with public transaction hashes.",
       href: "/docs",
       linkText: "View proof ledger →",
-      accent: "border-t-2 border-t-signal-500",
     },
     {
       label: "GOVERNANCE & ORACLES",
@@ -381,7 +384,6 @@ function InsightsSection() {
       desc: "Settlement prices are anchored to official 16:00 ET close prices via Chainlink feeds with automated early-close and DST shift compensation.",
       href: "/docs",
       linkText: "Inspect oracle specs →",
-      accent: "border-t-2 border-t-info-500",
     },
     {
       label: "SECURITY AUDIT",
@@ -389,7 +391,6 @@ function InsightsSection() {
       desc: "All smart contracts underwent static security analysis. Zero High and Zero Medium severity findings detected across settlement and forwards engines.",
       href: "/docs",
       linkText: "Read security report →",
-      accent: "border-t-2 border-t-pos-500",
     },
   ];
   return (
@@ -397,8 +398,8 @@ function InsightsSection() {
       <div className="mx-auto max-w-[1440px] px-4 py-24 lg:px-16 lg:py-32">
         <SectionHead index="06" label="Insights & Verification" title="Institutional rigor. Provable On Chain." />
         <div className="grid grid-cols-1 gap-px bg-ink-700 lg:grid-cols-3">
-          {insights.map((item) => (
-            <div key={item.title} data-r className={`wm-card flex flex-col justify-between bg-ink-950 p-8 lg:p-10 ${item.accent}`}>
+          {insights.map((item, i) => (
+            <div key={item.title} data-r data-r-delay={String(i + 1)} className="wm-card flex flex-col justify-between bg-ink-950 p-8 lg:p-10">
               <span className="wm-marker" />
               <div>
                 <span className="font-mono text-xs uppercase tracking-wider text-signal-500">{item.label}</span>
@@ -428,9 +429,11 @@ function ActionBanner() {
   return (
     <section className="bg-signal-500 text-ink-950">
       <div className="mx-auto grid max-w-[1440px] grid-cols-1 divide-y divide-ink-950/20 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
-        {actions.map((act) => (
+        {actions.map((act, i) => (
           <a
             key={act.title}
+            data-r
+            data-r-delay={String(i + 1)}
             href={act.href}
             className="group flex flex-col justify-between p-8 transition-colors hover:bg-signal-300 lg:p-12"
           >
@@ -460,7 +463,9 @@ function FaqSection() {
     <section id="faq" className="border-b border-ink-700 bg-ink-950">
       <div className="mx-auto max-w-[1440px] px-4 py-24 lg:px-16 lg:py-32">
         <SectionHead index="07" label="FAQ" title="Questions desks ask first." />
-        <Faq items={FAQ} />
+        <div data-r data-r-delay="1">
+          <Faq items={FAQ} />
+        </div>
       </div>
     </section>
   );
@@ -486,7 +491,7 @@ function Cta() {
             <PillButton href="/mm" variant="ghost">Apply to quote</PillButton>
           </div>
         </div>
-        <div data-r className="col-span-12 h-[260px] lg:col-span-6 lg:h-[380px]">
+        <div data-r data-r-delay="1" className="col-span-12 h-[260px] lg:col-span-6 lg:h-[380px]">
           <CtaScene />
         </div>
       </div>
